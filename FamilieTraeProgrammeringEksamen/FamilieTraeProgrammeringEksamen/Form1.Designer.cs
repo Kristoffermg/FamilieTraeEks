@@ -28,6 +28,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.numberOfParentGenerations = new System.Windows.Forms.NumericUpDown();
             this.CreateFamily = new System.Windows.Forms.Button();
+            this.clearDatabase = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numberOfParentGenerations)).BeginInit();
             this.SuspendLayout();
@@ -83,11 +84,22 @@
             this.CreateFamily.UseVisualStyleBackColor = true;
             this.CreateFamily.Click += new System.EventHandler(this.CreateFamily_Click);
             // 
+            // clearDatabase
+            // 
+            this.clearDatabase.Location = new System.Drawing.Point(13, 167);
+            this.clearDatabase.Name = "clearDatabase";
+            this.clearDatabase.Size = new System.Drawing.Size(75, 23);
+            this.clearDatabase.TabIndex = 4;
+            this.clearDatabase.Text = "Clear data";
+            this.clearDatabase.UseVisualStyleBackColor = true;
+            this.clearDatabase.Click += new System.EventHandler(this.clearDatabase_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.clearDatabase);
             this.Controls.Add(this.CreateFamily);
             this.Controls.Add(this.numberOfParentGenerations);
             this.Controls.Add(this.panel1);
@@ -109,6 +121,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numberOfParentGenerations;
         private System.Windows.Forms.Button CreateFamily;
+        private System.Windows.Forms.Button clearDatabase;
     }
 }
 
