@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 
 namespace FamilieTraeProgrammeringEksamen {
     public partial class Form1 : Form {
-           MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Kristoffer;password=12345678;");
+           MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
         MySqlCommand sqlCmd;
         public Form1() {
             InitializeComponent();
