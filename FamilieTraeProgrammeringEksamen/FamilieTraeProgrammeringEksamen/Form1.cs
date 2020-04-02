@@ -6,14 +6,16 @@ using MySql.Data.MySqlClient;
 
 namespace FamilieTraeProgrammeringEksamen {
     public partial class Form1 : Form {
-           MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
-        MySqlCommand sqlCmd;
+        protected MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
+        protected MySqlCommand sqlCmd;
+        Person psn = new Person();
+
         public Form1() {
             InitializeComponent();
         }
 
         private void CreateFamily_Click(object sender, EventArgs e) {
-            if(CommandQuery("Read", "select ID from Members") == "Database is empty") {
+            if (CommandQuery("Read", "select ID from Members") == "Database is empty") {
                 try {
                     GenerateFamilyMembers();
                 }
@@ -24,6 +26,13 @@ namespace FamilieTraeProgrammeringEksamen {
             else {
                 MessageBox.Show("Database isn't empty, please clear it before creating a new tree");
             }
+        }
+
+        private void clearDatabase_Click(object sender, EventArgs e) {
+            sqlCmd = new MySqlCommand("Delete from Members", sqlCon);
+            sqlCon.Open();
+            sqlCmd.ExecuteNonQuery();
+            sqlCon.Close();
         }
 
         string CommandQuery(string type, string command) {
@@ -110,11 +119,6 @@ namespace FamilieTraeProgrammeringEksamen {
             return "";
         }
 
-        private void clearDatabase_Click(object sender, EventArgs e) {
-            sqlCmd = new MySqlCommand("Delete from Members", sqlCon);
-            sqlCon.Open();
-            sqlCmd.ExecuteNonQuery();
-            sqlCon.Close();
-        }
+
     }
 }
