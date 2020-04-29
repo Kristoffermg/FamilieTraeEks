@@ -3,6 +3,9 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace FamilieTraeProgrammeringEksamen {
     public partial class Form1 : Form {
@@ -115,6 +118,38 @@ namespace FamilieTraeProgrammeringEksamen {
             sqlCon.Open();
             sqlCmd.ExecuteNonQuery();
             sqlCon.Close();
+            
+        }
+
+        static PaintSettings paint = new PaintSettings();
+        // Eksempel på personer, bliver midlertidigt brugt til tests indtil der kan genereres personer til databasen
+        List<string> Parents = new List<string>() { "Peter", "Hanne"}; // Far, mor
+        List<string> Children = new List<string>() { "Johanne" }; // Barn
+
+        private void PictureBox1_Paint(object sender, PaintEventArgs e) { // Midlertidig til test af hvordan rektanglerne, navnene og stregerne skal tegnes - Vil blive ændret på senere
+            Point p3 = new Point();
+            for (int i = 0; i < 2; i++) {
+                int RecPosX = paint.RecPosX;
+                int RecPosY = paint.RecPosY;
+                var rect = new Rectangle(RecPosX, RecPosY, 70, 32);
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                Pen objMyPen = new Pen(Color.Black, 3);
+                e.Graphics.DrawRectangle(objMyPen, rect);
+                TextRenderer.DrawText(e.Graphics, Parents[0], this.Font, rect, Color.Black,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                Pen blackPen = new Pen(Color.Black, 3);
+                int RecXCenter = RecPosX + 35; // 35: Halvdelen af rektanglens width (70)
+                int RecYBottom = RecPosY + 32; 
+                Point p1 = new Point(RecXCenter, RecYBottom);
+                Point p2 = new Point(RecXCenter, RecYBottom + 20);
+                if(i == 1) {
+                    e.Graphics.DrawLine(blackPen, p3, p2);
+                }
+                p3 = p2; // Gemmer det forrige point til stregen, som connecter de to streger 
+                e.Graphics.DrawLine(blackPen, p1, p2);
+                Parents.RemoveAt(0);
+            }
+
         }
     }
 }
