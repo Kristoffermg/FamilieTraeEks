@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FamilieTraeProgrammeringEksamen {
-    class Person : Form1 {
+    class Person {
+        protected MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
+        protected MySqlCommand sqlCmd;
 
         #region Overload Methods - Find Values Of Individuals
 
@@ -29,7 +31,7 @@ namespace FamilieTraeProgrammeringEksamen {
                 Console.WriteLine(CommandQuery($"select * from Members where ID=@0", ID, i));
             }
         }
-        
+
         //Søger gennem databasen efter værdier
         string CommandQuery(string command, int ID, int infoWanted) {
             sqlCon.Open();
@@ -71,4 +73,3 @@ namespace FamilieTraeProgrammeringEksamen {
 
     }
 }
-
