@@ -6,26 +6,18 @@ using System.Threading.Tasks;
 
 namespace FamilieTraeProgrammeringEksamen {
     class PaintSettings {
-        private int recPosX = 0;
-        private int recPosY = 0;
+        private int currentPosX = 0;
+        private int currentPosY = 0;
 
 
-        public int RecPosX {
-            get {
-                recPosX += 100;
-                return recPosX;
-            }
-
-            set {
-                
-            }
+        public int CurrentPosX {
+            get { return currentPosX; }
+            set { currentPosX = value; }
         }
 
-        public int RecPosY {
-            get { return recPosY; }
-            set {
-
-            }
+        public int CurrentPosY {
+            get { return currentPosY; }
+            set { currentPosY = value; }
         }
 
         

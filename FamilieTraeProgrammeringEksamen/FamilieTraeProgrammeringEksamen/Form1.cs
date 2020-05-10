@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace FamilieTraeProgrammeringEksamen {
     public partial class Form1 : Form {
-           MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Kristoffer;password=12345678;");
+        MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Kristoffer;password=12345678;");
         MySqlCommand sqlCmd;
         public Form1() {
             InitializeComponent();
@@ -18,7 +18,7 @@ namespace FamilieTraeProgrammeringEksamen {
         private void CreateFamily_Click(object sender, EventArgs e) {
             if(CommandQuery("Read", "select ID from Members") == "Database is empty") {
                 try {
-                    GenerateFamilyMembers();
+                    Console.WriteLine("aaa");
                 }
                 catch (Exception error) {
                     MessageBox.Show(error.ToString());
@@ -27,6 +27,7 @@ namespace FamilieTraeProgrammeringEksamen {
             else {
                 MessageBox.Show("Database isn't empty, please clear it before creating a new tree");
             }
+            
         }
 
         string CommandQuery(string type, string command) {
@@ -122,34 +123,159 @@ namespace FamilieTraeProgrammeringEksamen {
         }
 
         static PaintSettings paint = new PaintSettings();
-        // Eksempel på personer, bliver midlertidigt brugt til tests indtil der kan genereres personer til databasen
-        List<string> Parents = new List<string>() { "Peter", "Hanne"}; // Far, mor
-        List<string> Children = new List<string>() { "Johanne" }; // Barn
 
-        private void PictureBox1_Paint(object sender, PaintEventArgs e) { // Midlertidig til test af hvordan rektanglerne, navnene og stregerne skal tegnes - Vil blive ændret på senere
-            Point p3 = new Point();
-            for (int i = 0; i < 2; i++) {
-                int RecPosX = paint.RecPosX;
-                int RecPosY = paint.RecPosY;
-                var rect = new Rectangle(RecPosX, RecPosY, 70, 32);
-                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                Pen objMyPen = new Pen(Color.Black, 3);
-                e.Graphics.DrawRectangle(objMyPen, rect);
-                TextRenderer.DrawText(e.Graphics, Parents[0], this.Font, rect, Color.Black,
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-                Pen blackPen = new Pen(Color.Black, 3);
-                int RecXCenter = RecPosX + 35; // 35: Halvdelen af rektanglens width (70)
-                int RecYBottom = RecPosY + 32; 
-                Point p1 = new Point(RecXCenter, RecYBottom);
-                Point p2 = new Point(RecXCenter, RecYBottom + 20);
-                if(i == 1) {
-                    e.Graphics.DrawLine(blackPen, p3, p2);
+        List<string> Names = new List<string>() { "Peter", "Hanne", "Gugu", "Gaga"};
+
+        // Irrelevante for nu, skal kun bruges til information på medlemmet (klik på medlemmet, ny form popper op, information står derinde)
+        List<int> DadID = new List<int>() { 0, 0, 1, 1 };
+        List<int> MomID = new List<int>() { 0, 0, 2, 2 };
+        List<int> MarriedWho = new List<int>() { 2, 0, 0 };
+        List<int> ChildrenWho = new List<int>() { 3, 4 };
+
+        List<int> Married = new List<int>() { 1, 0, 0 }; // 1 = yes, 0 = no
+        List<int> Children = new List<int>() { 1, 0, 0 };
+        List<int> ChildrenAmount = new List<int>() { 2, 0, 0 }; 
+
+        int amountOfMembers = 4 - 3;
+        int boxSizeX = 70; 
+        // Systemet følger altid kun en side af forældrene, altså går den ud fra en af forældrene og tegner den anden, der er 3 indekses ved married, marriedwho osv da den anden forælder ikke skal tages i betragtning, derimod er der 4 indekses i Names, da den anden forælders navn stadigvæk skal inkluderes til når den anden forælder skal tegnes.
+        private void PictureBox1_Paint(object sender, PaintEventArgs e) {
+            // Finder midten af pictureboxen og minusser det med det dobbelte af boxSizeX, så de 2 øverste bokse (far og mor) bliver centreret i pictureboxen
+            int pictureboxCenter = pictureBox1.Width / 2 - (boxSizeX * 2);
+            paint.CurrentPosX = pictureboxCenter;
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            Pen pen = new Pen(Color.Black, 3);
+            Point from;
+            Point to;
+            for (int i = 0; i < amountOfMembers; i++) {
+                var memberBoxSettings = new Rectangle(paint.CurrentPosX, paint.CurrentPosY, boxSizeX, 32);
+                e.Graphics.DrawRectangle(pen, memberBoxSettings);
+                TextRenderer.DrawText(e.Graphics, Names[i], this.Font, memberBoxSettings, Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                if (Married[i] == 1) { // Er gift
+                    int fromBox_X = paint.CurrentPosX + boxSizeX; // Enden af boksen (X)
+                    int fromBox_Y = paint.CurrentPosY + 16; // Midten af boksen (Y)
+                    from = new Point(fromBox_X, fromBox_Y);
+
+                    to = new Point(fromBox_X + 35, fromBox_Y);
+                    e.Graphics.DrawLine(pen, from, to);
+
+                    memberBoxSettings = new Rectangle(fromBox_X + 35, fromBox_Y - 16, boxSizeX, 32);
+                    e.Graphics.DrawRectangle(pen, memberBoxSettings);
+                    // i + 1 ved Names[] da morens navn skal bruges
+                    TextRenderer.DrawText(e.Graphics, Names[i + 1], this.Font, memberBoxSettings, Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+
+                    paint.CurrentPosX = fromBox_X + 17;
+                    paint.CurrentPosY = fromBox_Y;
+
+                    if(Children[i] == 1) {
+                        from = new Point(paint.CurrentPosX, paint.CurrentPosY);
+                        to = new Point(paint.CurrentPosX, paint.CurrentPosY + 48); // 48 = 16 (ned til enden af boksen) + 32 (det der svarer til en boks's højde)
+                        e.Graphics.DrawLine(pen, from, to);
+                        paint.CurrentPosY += 48;
+
+                        if (ChildrenAmount[i] == 1) {
+                            memberBoxSettings = new Rectangle(paint.CurrentPosX - 35, paint.CurrentPosY, boxSizeX, 32);
+                            e.Graphics.DrawRectangle(pen, memberBoxSettings);
+                            TextRenderer.DrawText(e.Graphics, Names[i + 2], this.Font, memberBoxSettings, Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                        }
+                        else if(ChildrenAmount[i] > 1) {
+                            int childrenLineLength = ChildrenAmount[i] * 50;
+                            from = new Point(paint.CurrentPosX - childrenLineLength, paint.CurrentPosY);
+                            to = new Point(paint.CurrentPosX + childrenLineLength, paint.CurrentPosY);
+                            e.Graphics.DrawLine(pen, from, to);
+
+                            paint.CurrentPosX -= childrenLineLength;
+
+                             if(ChildrenAmount[i] == 2) {
+                                // Går en tand ned, hvor stregen connector med toppen af barnets boks
+                                from = new Point(paint.CurrentPosX, paint.CurrentPosY);
+                                to = new Point(paint.CurrentPosX, paint.CurrentPosY + 16);
+                                e.Graphics.DrawLine(pen, from, to);
+
+                                memberBoxSettings = new Rectangle(paint.CurrentPosX - 35, paint.CurrentPosY + 16, boxSizeX, 32);
+                                e.Graphics.DrawRectangle(pen, memberBoxSettings);
+                                TextRenderer.DrawText(e.Graphics, Names[i + 2], this.Font, memberBoxSettings, Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+
+
+                                paint.CurrentPosX += childrenLineLength * 2;
+                                from = new Point(paint.CurrentPosX, paint.CurrentPosY);
+                                to = new Point(paint.CurrentPosX, paint.CurrentPosY + 16);
+                                e.Graphics.DrawLine(pen, from, to);
+
+                                memberBoxSettings = new Rectangle(paint.CurrentPosX - 35, paint.CurrentPosY + 16, boxSizeX, 32);
+                                e.Graphics.DrawRectangle(pen, memberBoxSettings);
+                                TextRenderer.DrawText(e.Graphics, Names[i + 3], this.Font, memberBoxSettings, Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                            }
+                            // LIGE PT ER CURRENTPOSX,Y PLACERET PÅ VENSTRE SIDE AF childrenLineLength
+                        }
+                    }
                 }
-                p3 = p2; // Gemmer det forrige point til stregen, som connecter de to streger 
-                e.Graphics.DrawLine(blackPen, p1, p2);
-                Parents.RemoveAt(0);
+                
+
             }
 
+            for (int i = 0; i < 1; i++) {
+                /*
+            int RecPosX1 = paint.RecPosX;
+            int RecPosY1 = paint.RecPosY;
+            var rect1 = new Rectangle(RecPosX1, RecPosY1, 70, 32);
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            Pen objMyPen1 = new Pen(Color.Black, 3);
+            e.Graphics.DrawRectangle(objMyPen1, rect1);
+            TextRenderer.DrawText(e.Graphics, Names[0], this.Font, rect1, Color.Black,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+
+            
+            for(int i = 0; i < 4; i++) {
+                switch(i) {
+                    case 1:
+                        if(Person1[2] == "Yes") {
+                            int RecPosX = paint.RecPosX;
+                            int RecPosY = paint.RecPosY;
+                            var rect = new Rectangle(RecPosX, RecPosY, 70, 32);
+                            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                            Pen objMyPen = new Pen(Color.Black, 3);
+                            e.Graphics.DrawRectangle(objMyPen, rect);
+                            TextRenderer.DrawText(e.Graphics, Parents[0], this.Font, rect, Color.Black,
+                                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                            
+                        }
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
+            }
+            */
+
+                /*
+                Point p3 = new Point();
+                for (int i = 0; i < 2; i++) {
+                    int RecPosX = paint.RecPosX;
+                    int RecPosY = paint.RecPosY;
+                    var rect = new Rectangle(RecPosX, RecPosY, 70, 32);
+                    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    Pen objMyPen = new Pen(Color.Black, 3);
+                    e.Graphics.DrawRectangle(objMyPen, rect);
+                    TextRenderer.DrawText(e.Graphics, Parents[0], this.Font, rect, Color.Black,
+                        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                    Pen blackPen = new Pen(Color.Black, 3);
+                    int RecXCenter = RecPosX + 35; // 35: Halvdelen af rektanglens width (70)
+                    int RecYBottom = RecPosY + 32; 
+                    Point p1 = new Point(RecXCenter, RecYBottom);
+                    Point p2 = new Point(RecXCenter, RecYBottom + 20);
+                    if(i == 1) {
+                        e.Graphics.DrawLine(blackPen, p3, p2);
+                    }
+                    p3 = p2; // Gemmer det forrige point til stregen, som connecter de to streger 
+                    e.Graphics.DrawLine(blackPen, p1, p2);
+                    Parents.RemoveAt(0);
+                }
+                */
+            }
         }
     }
 }
