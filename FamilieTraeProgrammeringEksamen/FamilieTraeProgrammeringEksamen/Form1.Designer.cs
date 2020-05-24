@@ -39,11 +39,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Palatino Linotype", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 54);
+            this.label1.Location = new System.Drawing.Point(44, 53);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(182, 21);
+            this.label1.Size = new System.Drawing.Size(139, 21);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Parent Generations (1-5)";
+            this.label1.Text = "Person ID (1-1269)";
             // 
             // panel1
             // 
@@ -66,7 +66,7 @@
             // 
             // numberOfParentGenerations
             // 
-            this.numberOfParentGenerations.Location = new System.Drawing.Point(199, 55);
+            this.numberOfParentGenerations.Location = new System.Drawing.Point(189, 55);
             this.numberOfParentGenerations.Name = "numberOfParentGenerations";
             this.numberOfParentGenerations.Size = new System.Drawing.Size(120, 20);
             this.numberOfParentGenerations.TabIndex = 2;
@@ -98,10 +98,11 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(8, 79);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox1.Location = new System.Drawing.Point(11, 80);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(910, 441);
+            this.pictureBox1.Size = new System.Drawing.Size(907, 443);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox1_Paint);
