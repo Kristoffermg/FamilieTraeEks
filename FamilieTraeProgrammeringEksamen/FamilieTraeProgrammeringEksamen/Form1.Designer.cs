@@ -28,7 +28,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.numberOfParentGenerations = new System.Windows.Forms.NumericUpDown();
             this.CreateFamily = new System.Windows.Forms.Button();
-            this.clearDatabase = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numberOfParentGenerations)).BeginInit();
@@ -86,34 +85,22 @@
             this.CreateFamily.UseVisualStyleBackColor = true;
             this.CreateFamily.Click += new System.EventHandler(this.CreateFamily_Click);
             // 
-            // clearDatabase
-            // 
-            this.clearDatabase.Location = new System.Drawing.Point(407, 51);
-            this.clearDatabase.Name = "clearDatabase";
-            this.clearDatabase.Size = new System.Drawing.Size(75, 23);
-            this.clearDatabase.TabIndex = 4;
-            this.clearDatabase.Text = "Clear data";
-            this.clearDatabase.UseVisualStyleBackColor = true;
-            this.clearDatabase.Click += new System.EventHandler(this.clearDatabase_Click);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox1.Location = new System.Drawing.Point(11, 80);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(907, 443);
+            this.pictureBox1.Size = new System.Drawing.Size(914, 222);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBox1_Paint);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(926, 528);
+            this.ClientSize = new System.Drawing.Size(935, 310);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.clearDatabase);
             this.Controls.Add(this.CreateFamily);
             this.Controls.Add(this.numberOfParentGenerations);
             this.Controls.Add(this.panel1);
@@ -136,7 +123,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numberOfParentGenerations;
         private System.Windows.Forms.Button CreateFamily;
-        private System.Windows.Forms.Button clearDatabase;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
