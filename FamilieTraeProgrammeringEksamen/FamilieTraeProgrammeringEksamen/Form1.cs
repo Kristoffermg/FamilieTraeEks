@@ -9,34 +9,26 @@ using System.Linq;
 
 namespace FamilieTraeProgrammeringEksamen {
     public partial class Form1 : Form {
-        //MySqlConnection sqlCon = new MySqlConnection("Data Source=192.168.0.37,3306;Initial Catalog=RPIStation;Persist Security Info=true;User ID=MainPC;password=pwd;");
         MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Kristoffer;password=12345678;");
         MySqlCommand sqlCmd;
 
         public Form1() {
             InitializeComponent();
+            numberOfParentGenerations.Minimum = 1;
+            numberOfParentGenerations.Maximum = FindMaximumID();
+            numberRange.Text = $"Person ID (1-{numberOfParentGenerations.Maximum})";
+        }
+
+        int FindMaximumID() {
+            return Convert.ToInt32(CommandReadQuery("select max(ID) from Members"));
         }
 
         private void CreateFamily_Click(object sender, EventArgs e) {
             RefreshEverything();
             GraphicsMain(Convert.ToInt32(numberOfParentGenerations.Value));
-
-            /*
-            if (CommandReadQuery("select ID from Members") == "Database is empty") {
-                try {
-                    Console.WriteLine("aaa");
-                }
-                catch (Exception error) {
-                    MessageBox.Show(error.ToString());
-                }
-            }
-            else {
-                MessageBox.Show("Database isn't empty, please clear it before creating a new tree");
-            }
-            */
         }
 
-        string CommandReadQuery(string query) {
+        public string CommandReadQuery(string query) {
             sqlCon.Open();
             sqlCmd = new MySqlCommand(query, sqlCon);
             MySqlDataReader da = sqlCmd.ExecuteReader();
@@ -87,17 +79,28 @@ namespace FamilieTraeProgrammeringEksamen {
             using (Graphics graphics = Graphics.FromImage(bmp)) {
                 graphics.Clear(Color.Transparent);
             }
+
+            // Sætter nogle af variablerne om til deres startværdi, så de forrige værdier ikke ville have en indflydelse på den nye tegning af et familietræ
             paint.CurrentPosY = 0;
             amountOfKidsBranches = 0;
             generationsDrawn = 1;
             currentlyDrawingGeneration = 1;
+
+            // Sletter ID, PosX og PosY værdierne i CurrentIDPos tablet
+            sqlCmd = new MySqlCommand("Delete from CurrentIDPos", sqlCon);
+            sqlCon.Open();
+            sqlCmd.ExecuteNonQuery();
+            sqlCon.Close();
         }
 
         // Metoden, som styrer hele processen om at tegne grafikken
         void GraphicsMain(int startPersonID) {
             // Tager det første ID ud fra startGenerationen
 
-            mainKidsNum = Convert.ToInt32(CommandReadQuery($"select KidsNum from Members where ID = {startPersonID}")); ;
+            string mainKidsNumS = CommandReadQuery($"select KidsNum from Members where ID = {startPersonID}");
+            if(mainKidsNumS != "0") {
+                mainKidsNum = Convert.ToInt32(($"select KidsNum from Members where ID = {startPersonID}"));
+            }
 
             ID = startPersonID;
 
@@ -137,6 +140,41 @@ namespace FamilieTraeProgrammeringEksamen {
 
             // Angiver pictureboxen til at have bitmappet, som er blevet designet på, som billede
             pictureBox1.Image = bmp;
+            PersonBoxPosToBinaryTree("X");
+        }
+
+        TreeNode t1 = new TreeNode();
+        TreeNode t2 = new TreeNode();
+
+        void PersonBoxPosToBinaryTree(string XorY) {
+            List<int> values = new List<int>();
+            sqlCon.Open();
+            sqlCmd = new MySqlCommand($"select Pos{XorY} from CurrentIDPos;", sqlCon);
+            MySqlDataReader da = sqlCmd.ExecuteReader();
+            while (da.Read()) {
+                values.Add(Convert.ToInt32(da.GetValue(0)));
+            }
+            sqlCon.Close();
+            values.Sort();
+            int[] arr = values.ToArray();
+            if(XorY == "X") {
+                t1.searchingForX = true;
+                t1.root = t2.ArrToBST(arr, 0, arr.Length - 1);
+                t1.inOrder(t2.root);
+                PersonBoxPosToBinaryTree("Y");
+            }
+            else if(XorY == "Y") {
+                t2.searchingForX = false;
+                t2.root = t2.ArrToBST(arr, 0, arr.Length - 1);
+                t2.inOrder(t2.root);
+            }
+        }
+
+        void InsertPersonIntoCurrentIDPos(int PosX, int PosY) {
+            sqlCmd = new MySqlCommand($"insert into CurrentIDPos values({ID}, {PosX}, {PosY})", sqlCon);
+            sqlCon.Open();
+            sqlCmd.ExecuteNonQuery();
+            sqlCon.Close();
         }
 
         void DrawPartnerIfIDHasOne() {
@@ -171,6 +209,31 @@ namespace FamilieTraeProgrammeringEksamen {
         }
 
         int generationsDrawn = 1;
+
+        // Sletter alle værdierne i CurrentIDPos når formen bliver lukket, så man ikke kan starte applikationen efter og stadig få informationsvinduet til at poppe op
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
+            sqlCmd = new MySqlCommand("Delete from CurrentIDPos", sqlCon);
+            sqlCon.Open();
+            sqlCmd.ExecuteNonQuery();
+            sqlCon.Close();
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e) {
+            int Xvalue, Yvalue;
+            Console.WriteLine();
+            Console.WriteLine($"Click position X: {e.X} Y: {e.Y}");
+            Xvalue = t1.Find(e.X, t1.root);
+            Yvalue = t2.Find(e.Y, t2.root);
+            Console.Write($"Found: {Xvalue}, {Yvalue}");
+
+            // Hvis der er fundet en person, findes ID'et til personen og bliver derefter sendt videre til ShowPersonInfo()
+            if (Xvalue != 0 && Yvalue != 0) {
+                int personID = Convert.ToInt32(CommandReadQuery($"select ID from CurrentIDPos where PosX = {Xvalue} and PosY = {Yvalue};"));
+                PersonInfoWindow InfoWindow = new PersonInfoWindow();
+                InfoWindow.ShowPersonInfo(personID);
+                InfoWindow.Show();
+            }
+        }
 
         // Denne region indeholder metoder, som bruges til at tegne et specifikt antal børn henad en linje
         #region 
@@ -253,6 +316,8 @@ namespace FamilieTraeProgrammeringEksamen {
             // Definerer positionen og størrelsen af rektanglen
             var rectangle = new Rectangle(paint.CurrentPosX, paint.CurrentPosY, rectangleWidth, rectangleHeight);
 
+            // Gemmer personen og dens position i CurrentIDPos tablet
+            InsertPersonIntoCurrentIDPos(paint.CurrentPosX, paint.CurrentPosY);
 
             // Til at holde styr på om der skal tegnes en forælder eller et barn (0 = forælder, over 0 = barn)
             string name = "";

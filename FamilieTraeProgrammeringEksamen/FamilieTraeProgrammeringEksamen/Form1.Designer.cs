@@ -23,7 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.label1 = new System.Windows.Forms.Label();
+            this.numberRange = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.numberOfParentGenerations = new System.Windows.Forms.NumericUpDown();
@@ -34,15 +34,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // numberRange
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Palatino Linotype", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(44, 53);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(139, 21);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Person ID (1-1269)";
+            this.numberRange.AutoSize = true;
+            this.numberRange.Font = new System.Drawing.Font("Palatino Linotype", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numberRange.Location = new System.Drawing.Point(44, 53);
+            this.numberRange.Name = "numberRange";
+            this.numberRange.Size = new System.Drawing.Size(139, 21);
+            this.numberRange.TabIndex = 0;
+            this.numberRange.Text = "Person ID (1-1269)";
             // 
             // panel1
             // 
@@ -94,6 +94,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(914, 222);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // Form1
             // 
@@ -104,9 +105,10 @@
             this.Controls.Add(this.CreateFamily);
             this.Controls.Add(this.numberOfParentGenerations);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.numberRange);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numberOfParentGenerations)).EndInit();
@@ -118,7 +120,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label numberRange;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numberOfParentGenerations;
