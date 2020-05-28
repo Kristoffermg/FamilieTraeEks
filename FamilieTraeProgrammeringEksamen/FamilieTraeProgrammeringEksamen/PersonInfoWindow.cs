@@ -14,7 +14,7 @@ namespace FamilieTraeProgrammeringEksamen {
             InitializeComponent();
         }
 
-        Form1 form1 = new Form1();
+        static Form1 form1 = new Form1();
 
         public void ShowPersonInfo(int personID) {
             string FirstName = form1.CommandReadQuery($"select FirstName from Members where ID = {personID}");

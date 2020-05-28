@@ -5,13 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FamilieTraeProgrammeringEksamen {
-    class PaintSettings {
-        private int currentPosX = 0;
-        private int currentPosY = 0;
-        private int archivedPosX = 0;
-        private int archivedPosY = 0;
-        private int archivedPosX2 = 0;
-        private int archivedPosY2 = 0;
+    class PositionValues {
+        private int currentX = 0;
+        private int currentY = 0;
+        private int archivedX = 0;
+        private int archivedY = 0;
 
         private int kid1X = 0;
         private int kid1Y = 0;
@@ -22,34 +20,24 @@ namespace FamilieTraeProgrammeringEksamen {
         private int kid3X = 0;
         private int kid3Y = 0;
 
-        public int CurrentPosX {
-            get { return currentPosX; }
-            set { currentPosX = value; }
+        public int CurrentX {
+            get { return currentX; }
+            set { currentX = value; }
         }
 
-        public int CurrentPosY {
-            get { return currentPosY; }
-            set { currentPosY = value; }
+        public int CurrentY {
+            get { return currentY; }
+            set { currentY = value; }
         }
 
-        public int ArchivedPosX {
-            get { return archivedPosX; }
-            set { archivedPosX = value; }
+        public int ArchivedX {
+            get { return archivedX; }
+            set { archivedX = value; }
         }
 
-        public int ArchivedPosY {
-            get { return archivedPosY; }
-            set { archivedPosY = value; }
-        }
-
-        public int ArchivedPosX2 {
-            get { return archivedPosX2; }
-            set { archivedPosX2 = value; }
-        }
-
-        public int ArchivedPosY2 {
-            get { return archivedPosY2; }
-            set { archivedPosY2 = value; }
+        public int ArchivedY {
+            get { return archivedY; }
+            set { archivedY = value; }
         }
 
         public int Kid1X {

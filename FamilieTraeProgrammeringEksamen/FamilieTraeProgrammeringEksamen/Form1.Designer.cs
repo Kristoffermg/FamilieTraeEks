@@ -26,12 +26,12 @@
             this.numberRange = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.numberOfParentGenerations = new System.Windows.Forms.NumericUpDown();
+            this.IDSpecification = new System.Windows.Forms.NumericUpDown();
             this.CreateFamily = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.graphicsDisplayBox = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numberOfParentGenerations)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.IDSpecification)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.graphicsDisplayBox)).BeginInit();
             this.SuspendLayout();
             // 
             // numberRange
@@ -50,7 +50,7 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Location = new System.Drawing.Point(0, -1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(925, 46);
+            this.panel1.Size = new System.Drawing.Size(939, 46);
             this.panel1.TabIndex = 1;
             // 
             // label2
@@ -63,13 +63,13 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Family Tree Application";
             // 
-            // numberOfParentGenerations
+            // IDSpecification
             // 
-            this.numberOfParentGenerations.Location = new System.Drawing.Point(189, 55);
-            this.numberOfParentGenerations.Name = "numberOfParentGenerations";
-            this.numberOfParentGenerations.Size = new System.Drawing.Size(120, 20);
-            this.numberOfParentGenerations.TabIndex = 2;
-            this.numberOfParentGenerations.Value = new decimal(new int[] {
+            this.IDSpecification.Location = new System.Drawing.Point(177, 55);
+            this.IDSpecification.Name = "IDSpecification";
+            this.IDSpecification.Size = new System.Drawing.Size(52, 20);
+            this.IDSpecification.TabIndex = 2;
+            this.IDSpecification.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -77,33 +77,35 @@
             // 
             // CreateFamily
             // 
-            this.CreateFamily.Location = new System.Drawing.Point(327, 51);
+            this.CreateFamily.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CreateFamily.Font = new System.Drawing.Font("Sitka Text", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CreateFamily.Location = new System.Drawing.Point(235, 49);
             this.CreateFamily.Name = "CreateFamily";
-            this.CreateFamily.Size = new System.Drawing.Size(75, 23);
+            this.CreateFamily.Size = new System.Drawing.Size(75, 29);
             this.CreateFamily.TabIndex = 3;
             this.CreateFamily.Text = "Create Family";
             this.CreateFamily.UseVisualStyleBackColor = true;
             this.CreateFamily.Click += new System.EventHandler(this.CreateFamily_Click);
             // 
-            // pictureBox1
+            // graphicsDisplayBox
             // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.Location = new System.Drawing.Point(11, 80);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(914, 222);
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
+            this.graphicsDisplayBox.BackColor = System.Drawing.SystemColors.Control;
+            this.graphicsDisplayBox.Location = new System.Drawing.Point(11, 80);
+            this.graphicsDisplayBox.Margin = new System.Windows.Forms.Padding(2);
+            this.graphicsDisplayBox.Name = "graphicsDisplayBox";
+            this.graphicsDisplayBox.Size = new System.Drawing.Size(914, 222);
+            this.graphicsDisplayBox.TabIndex = 5;
+            this.graphicsDisplayBox.TabStop = false;
+            this.graphicsDisplayBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(935, 310);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.graphicsDisplayBox);
             this.Controls.Add(this.CreateFamily);
-            this.Controls.Add(this.numberOfParentGenerations);
+            this.Controls.Add(this.IDSpecification);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.numberRange);
             this.Name = "Form1";
@@ -111,8 +113,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numberOfParentGenerations)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.IDSpecification)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.graphicsDisplayBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -123,9 +125,9 @@
         private System.Windows.Forms.Label numberRange;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numberOfParentGenerations;
+        private System.Windows.Forms.NumericUpDown IDSpecification;
         private System.Windows.Forms.Button CreateFamily;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox graphicsDisplayBox;
     }
 }
 

@@ -82,7 +82,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="PaintSettings.cs" />
+    <Compile Include="PositionValues.cs" />
     <Compile Include="PersonInfoWindow.cs">
       <SubType>Form</SubType>
     </Compile>

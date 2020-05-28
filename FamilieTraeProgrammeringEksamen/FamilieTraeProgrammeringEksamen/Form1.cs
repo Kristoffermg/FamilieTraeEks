@@ -14,9 +14,10 @@ namespace FamilieTraeProgrammeringEksamen {
 
         public Form1() {
             InitializeComponent();
-            numberOfParentGenerations.Minimum = 1;
-            numberOfParentGenerations.Maximum = FindMaximumID();
-            numberRange.Text = $"Person ID (1-{numberOfParentGenerations.Maximum})";
+            this.Text = "Familiy Tree generator";
+            IDSpecification.Minimum = 1;
+            IDSpecification.Maximum = FindMaximumID();
+            numberRange.Text = $"Person ID (1-{IDSpecification.Maximum})";
         }
 
         int FindMaximumID() {
@@ -25,7 +26,7 @@ namespace FamilieTraeProgrammeringEksamen {
 
         private void CreateFamily_Click(object sender, EventArgs e) {
             RefreshEverything();
-            GraphicsMain(Convert.ToInt32(numberOfParentGenerations.Value));
+            GraphicsMain(Convert.ToInt32(IDSpecification.Value));
         }
 
         public string CommandReadQuery(string query) {
@@ -41,10 +42,10 @@ namespace FamilieTraeProgrammeringEksamen {
             return "Database is empty";
         }
 
-        PaintSettings paint = new PaintSettings();
+        PositionValues pos = new PositionValues();
 
         // Definerer bitmappet, hvori grafikken indsættes
-        Bitmap bmp = new Bitmap(914, 429);
+        Bitmap bmp = new Bitmap(914, 429); // 914 = 
 
         // Definerer størrelsen på rektanglerne, som indeholder navnene på de specifikke personer
         int rectangleWidth = 50;
@@ -63,13 +64,9 @@ namespace FamilieTraeProgrammeringEksamen {
         // Den lange streg, hvor forældrenes børns rektangler hænger ned fra og en variabel, som bruges til at holde øje med hvor mange kidsBranches der er tegnet
         int kidsBranch, amountOfKidsBranches;
 
-        // Bruges til at vide om der gøres brug af det udvalgte ID's partner
-        int firstPersonKidAmount;
-
         // Variablerne fra databasen, som bruges i udregningerne ift. grafikken
         int ID = 1;
         int isMarried, partnerID;
-        int hasPartner; // *************************** Bruge denne variabel i stedet for isMarried?********************
         int kidsNum, kid1ID, kid2ID, kid3ID;
         int main1Kid, main2Kid, main3Kid;
         int mainKidsNum;
@@ -81,9 +78,8 @@ namespace FamilieTraeProgrammeringEksamen {
             }
 
             // Sætter nogle af variablerne om til deres startværdi, så de forrige værdier ikke ville have en indflydelse på den nye tegning af et familietræ
-            paint.CurrentPosY = 0;
+            pos.CurrentY = 0;
             amountOfKidsBranches = 0;
-            generationsDrawn = 1;
             currentlyDrawingGeneration = 1;
 
             // Sletter ID, PosX og PosY værdierne i CurrentIDPos tablet
@@ -95,18 +91,14 @@ namespace FamilieTraeProgrammeringEksamen {
 
         // Metoden, som styrer hele processen om at tegne grafikken
         void GraphicsMain(int startPersonID) {
-            // Tager det første ID ud fra startGenerationen
-
-            string mainKidsNumS = CommandReadQuery($"select KidsNum from Members where ID = {startPersonID}");
-            if(mainKidsNumS != "0") {
-                mainKidsNum = Convert.ToInt32(($"select KidsNum from Members where ID = {startPersonID}"));
-            }
+            // Finder ud af hvor mange børn som det specificerede ID har
+            mainKidsNum = Convert.ToInt32(CommandReadQuery($"select KidsNum from Members where ID = {startPersonID}"));
 
             ID = startPersonID;
 
             // Finder centeret af bitmappet (X) og gemmer det
-            paint.CurrentPosX = bmp.Width / 2 - rectangleWidth * 2;
-            paint.CurrentPosY += 15;
+            pos.CurrentX = bmp.Width / 2 - rectangleWidth * 2;
+            pos.CurrentY += 15;
 
             // Tegner den aller første person øverst i familietræet
             DrawRectangleWithName(0);
@@ -117,39 +109,39 @@ namespace FamilieTraeProgrammeringEksamen {
             for(int i = 0; i < mainKidsNum + 1; i++) {
                 if(i == 1) {
                     ID = main1Kid;
-                    paint.CurrentPosX = paint.Kid1X;
-                    paint.CurrentPosY = paint.Kid1Y;
+                    pos.CurrentX = pos.Kid1X;
+                    pos.CurrentY = pos.Kid1Y;
                     DrawPartnerIfIDHasOne();
                     DrawKidsIfIDHasKids();
                 }
                 else if(i == 2) {
                     ID = main2Kid;
-                    paint.CurrentPosX = paint.Kid2X;
-                    paint.CurrentPosY = paint.Kid2Y;
+                    pos.CurrentX = pos.Kid2X;
+                    pos.CurrentY = pos.Kid2Y;
                     DrawPartnerIfIDHasOne();
                     DrawKidsIfIDHasKids();
                 }
                 else if(i == 3) {
                     ID = main3Kid;
-                    paint.CurrentPosX = paint.Kid3X;
-                    paint.CurrentPosY = paint.Kid3Y;
+                    pos.CurrentX = pos.Kid3X;
+                    pos.CurrentY = pos.Kid3Y;
                     DrawPartnerIfIDHasOne();
                     DrawKidsIfIDHasKids();
                 }
             }
 
             // Angiver pictureboxen til at have bitmappet, som er blevet designet på, som billede
-            pictureBox1.Image = bmp;
-            PersonBoxPosToBinaryTree("X");
+            graphicsDisplayBox.Image = bmp;
+            PersonBoxPosToBinaryTree('X');
         }
 
-        TreeNode t1 = new TreeNode();
-        TreeNode t2 = new TreeNode();
+        TreeNode Xtree = new TreeNode();
+        TreeNode Ytree = new TreeNode();
 
-        void PersonBoxPosToBinaryTree(string XorY) {
+        void PersonBoxPosToBinaryTree(char XorY) {
             List<int> values = new List<int>();
             sqlCon.Open();
-            sqlCmd = new MySqlCommand($"select Pos{XorY} from CurrentIDPos;", sqlCon);
+            sqlCmd = new MySqlCommand($"select Pos{XorY} from CurrentIDPos", sqlCon);
             MySqlDataReader da = sqlCmd.ExecuteReader();
             while (da.Read()) {
                 values.Add(Convert.ToInt32(da.GetValue(0)));
@@ -157,16 +149,18 @@ namespace FamilieTraeProgrammeringEksamen {
             sqlCon.Close();
             values.Sort();
             int[] arr = values.ToArray();
-            if(XorY == "X") {
-                t1.searchingForX = true;
-                t1.root = t2.ArrToBST(arr, 0, arr.Length - 1);
-                t1.inOrder(t2.root);
-                PersonBoxPosToBinaryTree("Y");
+            if(XorY == 'X') {
+                Xtree.searchingForX = true;
+                Xtree.root = Xtree.ArrToBST(arr, 0, arr.Length - 1);
+                Xtree.PrintTree(Xtree.root);
+                Console.WriteLine();
+                PersonBoxPosToBinaryTree('Y');
             }
-            else if(XorY == "Y") {
-                t2.searchingForX = false;
-                t2.root = t2.ArrToBST(arr, 0, arr.Length - 1);
-                t2.inOrder(t2.root);
+            else if(XorY == 'Y') {
+                Ytree.searchingForX = false;
+                Ytree.root = Ytree.ArrToBST(arr, 0, arr.Length - 1);
+                Ytree.PrintTree(Ytree.root);
+                Console.WriteLine();
             }
         }
 
@@ -186,29 +180,22 @@ namespace FamilieTraeProgrammeringEksamen {
                 DrawRectangleWithName(0);
                 CalculatePointsForLine("Partner");
             }
-
-            
         }
 
         void DrawKidsIfIDHasKids() {
             kidsNum = Convert.ToInt32(CommandReadQuery($"select KidsNum from Members where ID = {ID}"));
             if (kidsNum != 0) { // Har børn
                 CalculatePointsForLine("KidLineup");
-
-                // Når der bliver tegnet et barn, skal ID'et inkrementeres med 1, hvis barnet har en partner (Skal måske ændres ift. om børnene har partner eller ej?)
-
             }
         }
 
         // Bruges til at udregne positionen for rektanglen når den specifikke person er gift
         void CalculatePartnerRectanglePosition() {
-            /* Før var CurrentPosX i øverste venstre hjørne på rektanglen. 
+            /* Før var CurrentX i øverste venstre hjørne på rektanglen. 
              * Herunder gåes der først over på den anden side af rektanglen ved at plusse dens X værdi størrelse til og derefter 32 pixels ud */
-            paint.CurrentPosX += rectangleWidth + 32;
+            pos.CurrentX += rectangleWidth + 32;
             DrawRectangleWithName(0);
         }
-
-        int generationsDrawn = 1;
 
         // Sletter alle værdierne i CurrentIDPos når formen bliver lukket, så man ikke kan starte applikationen efter og stadig få informationsvinduet til at poppe op
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
@@ -218,95 +205,119 @@ namespace FamilieTraeProgrammeringEksamen {
             sqlCon.Close();
         }
 
+        public static int Xvalue, Yvalue;
+
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e) {
-            int Xvalue, Yvalue;
             Console.WriteLine();
             Console.WriteLine($"Click position X: {e.X} Y: {e.Y}");
-            Xvalue = t1.Find(e.X, t1.root);
-            Yvalue = t2.Find(e.Y, t2.root);
-            Console.Write($"Found: {Xvalue}, {Yvalue}");
 
-            // Hvis der er fundet en person, findes ID'et til personen og bliver derefter sendt videre til ShowPersonInfo()
-            if (Xvalue != 0 && Yvalue != 0) {
-                int personID = Convert.ToInt32(CommandReadQuery($"select ID from CurrentIDPos where PosX = {Xvalue} and PosY = {Yvalue};"));
+            /* Først bliver Y-værdien fundet, da de forskellige generationer har samme Y-værdi og X-værdien altid kan variere
+             * Hvis man f.eks. trykker på en persons rektangel i bunden af træet mens der er en anden persons rektangel længere oppe med næsten samme X-værdi, vil BST'et returnere toppens rektangels X-værdi */
+            Yvalue = Ytree.Find(e.Y, Ytree.root);
+            Xvalue = Xtree.Find(e.X, Xtree.root);
+            Console.Write($"Found: X: {Xvalue}, Y: {Yvalue}");
+
+            // Inden personID bliver defineret, tjekkes der, om der overhovedet er fundet en person der hvor man har klikket vha. Xvalue og Yvalue
+            if(Xvalue > 0 && Yvalue > 0) {
                 PersonInfoWindow InfoWindow = new PersonInfoWindow();
+                // Personen, som vha. Binary search tree er blevet fundet, sendes videre til ShowPersonInfo() i PersonInfoWindow.cs, så personens informationer bliver vist
+                int personID = Convert.ToInt32(CommandReadQuery($"select ID from CurrentIDPos where PosX = {Xvalue} and PosY = {Yvalue}"));
                 InfoWindow.ShowPersonInfo(personID);
                 InfoWindow.Show();
             }
         }
 
-        // Denne region indeholder metoder, som bruges til at tegne et specifikt antal børn henad en linje
-        #region 
+        #region Contains methods that draws the amount of kids that needs to be drawn (Maximum amount = 3)
         void DrawOneKid() {
-            paint.ArchivedPosX = paint.CurrentPosX;
-            paint.CurrentPosX -= rectangleWidth / 2;
+            // Arkiverer midterpositionen, så den senere kan bruges igen
+            pos.ArchivedX = pos.CurrentX;
+
+            // Placerer den nuværende X-position sådan, at den lange streg der går fra forældrene bliver centreret på midten af rektanglens X-værdi
+            pos.CurrentX -= rectangleWidth / 2;
             ID = kid1ID;
             DrawRectangleWithName(kid1ID);
+
+            // Hvis barnet, som lige er blevet tegnet, er et barn til de første personer, som er tegnet, gemmes barnets position, så de kan bruges senere til hvis barnet har partner/børn
+            // Det samme bliver gjort i DrawTwoKids()
             if(currentlyDrawingGeneration == 2) {
-                paint.Kid1X = paint.CurrentPosX;
-                paint.Kid1Y = paint.CurrentPosY;
+                pos.Kid1X = pos.CurrentX;
+                pos.Kid1Y = pos.CurrentY;
             }
         }
 
         void DrawTwoKids(int kid1, int kid2) {
             
-            paint.ArchivedPosY = paint.CurrentPosY;
-            paint.ArchivedPosX = paint.CurrentPosX;
-            paint.CurrentPosY += 10;
-            paint.CurrentPosX -= kidsBranch;
-            from = new Point(paint.CurrentPosX, paint.ArchivedPosY);
-            to = new Point(paint.CurrentPosX, paint.CurrentPosY);
+            // Arkiverer den tidligere position (midten af kidsBranch), så den senere kan bruges igen
+            pos.ArchivedY = pos.CurrentY;
+            pos.ArchivedX = pos.CurrentX;
+
+            // Tegner den lille streg, som går fra kidsBranch stregen og ned til barnets rektangel
+            pos.CurrentY += 10;
+            pos.CurrentX -= kidsBranch;
+            from = new Point(pos.CurrentX, pos.ArchivedY);
+            to = new Point(pos.CurrentX, pos.CurrentY);
             DrawLine();
-            paint.CurrentPosX -= rectangleWidth / 2;
+
+            // Placerer den nuværende X-position sådan, at rektanglen bliver tegnet sådan at den lille streg går ned til centeret af rektanglens X-værdi
+            pos.CurrentX -= rectangleWidth / 2;
             ID = kid1;
             DrawRectangleWithName(kid1);
             if(currentlyDrawingGeneration == 2) {
                 if(mainKidsNum == 2) {
-                    paint.Kid1X = paint.CurrentPosX;
-                    paint.Kid1Y = paint.CurrentPosY;
+                    pos.Kid1X = pos.CurrentX;
+                    pos.Kid1Y = pos.CurrentY;
                 }
-                else { // mainKidsNum == 3
-                    paint.Kid2X = paint.CurrentPosX;
-                    paint.Kid2Y = paint.CurrentPosY;
+                else { // mainKidsNum = 3
+                    pos.Kid2X = pos.CurrentX;
+                    pos.Kid2Y = pos.CurrentY;
                 }
             }
 
-            paint.CurrentPosY = paint.ArchivedPosY;
-            paint.CurrentPosX = paint.ArchivedPosX;
+            // Laver den nuværende position om til midten af kidsBranch igen
+            pos.CurrentY = pos.ArchivedY;
+            pos.CurrentX = pos.ArchivedX;
 
-            paint.CurrentPosY += 10;
-
-            paint.CurrentPosX += kidsBranch;
-            from = new Point(paint.CurrentPosX, paint.ArchivedPosY);
-            to = new Point(paint.CurrentPosX, paint.CurrentPosY);
+            // Tegner den lille streg, som går fra kidsBranch stregen og ned til barnets rektangel
+            pos.CurrentY += 10;
+            pos.CurrentX += kidsBranch;
+            from = new Point(pos.CurrentX, pos.ArchivedY);
+            to = new Point(pos.CurrentX, pos.CurrentY);
             DrawLine();
-            paint.ArchivedPosX = paint.CurrentPosX;
-            paint.CurrentPosX -= rectangleWidth / 2;
+
+            pos.ArchivedX = pos.CurrentX;
+            // Placerer den nuværende X-position sådan, at rektanglen bliver tegnet sådan at den lille streg går ned til centeret af rektanglens X-værdi
+            pos.CurrentX -= rectangleWidth / 2;
             ID = kid2;
             DrawRectangleWithName(kid2);
             if (currentlyDrawingGeneration == 2) {
                 if (mainKidsNum == 2) {
-                    paint.Kid2X = paint.CurrentPosX;
-                    paint.Kid2Y = paint.CurrentPosY;
+                    pos.Kid2X = pos.CurrentX;
+                    pos.Kid2Y = pos.CurrentY;
                 }
-                else { // mainKidsNum == 3
-                    paint.Kid3X = paint.CurrentPosX;
-                    paint.Kid3Y = paint.CurrentPosY;
+                else { // mainKidsNum = 3
+                    pos.Kid3X = pos.CurrentX;
+                    pos.Kid3Y = pos.CurrentY;
                 }
             }
 
         }
 
         void DrawThreeKids(int kid1, int kid2, int kid3) {
-            // DrawOneKid() bruges, da der ved 3 børn alligevel skal være et barn i midten, som DrawOneKid() netop tegner
-            paint.ArchivedPosY = paint.CurrentPosY;
-            paint.CurrentPosY += 10;
-            from = new Point(paint.CurrentPosX, paint.ArchivedPosY);
-            to = new Point(paint.CurrentPosX, paint.CurrentPosY);
+            // Laver stregen ned til DrawOneKid(), som normalvis ikke ville være der, hvis der kun var et barn 
+            pos.ArchivedY = pos.CurrentY;
+            pos.CurrentY += 10;
+            from = new Point(pos.CurrentX, pos.ArchivedY);
+            to = new Point(pos.CurrentX, pos.CurrentY);
             DrawLine();
+
+            // DrawOneKid() bruges, da der ved 3 børn alligevel skal være et barn i midten, som DrawOneKid() netop tegner
             DrawOneKid();
-            paint.CurrentPosX = paint.ArchivedPosX;
-            paint.CurrentPosY = paint.ArchivedPosY;
+
+            // Laver den næverende position om til midten af kidsBranch igen, da DrawOneKid() har ændret på positionen
+            pos.CurrentX = pos.ArchivedX;
+            pos.CurrentY = pos.ArchivedY;
+
+            // De 2 sidste børn bliver tegnet i enderne af kidsBranch
             DrawTwoKids(kid2, kid3);
 
         }
@@ -314,21 +325,19 @@ namespace FamilieTraeProgrammeringEksamen {
 
         void DrawRectangleWithName(int kidNumber) {
             // Definerer positionen og størrelsen af rektanglen
-            var rectangle = new Rectangle(paint.CurrentPosX, paint.CurrentPosY, rectangleWidth, rectangleHeight);
+            var rectangle = new Rectangle(pos.CurrentX, pos.CurrentY, rectangleWidth, rectangleHeight);
 
             // Gemmer personen og dens position i CurrentIDPos tablet
-            InsertPersonIntoCurrentIDPos(paint.CurrentPosX, paint.CurrentPosY);
+            InsertPersonIntoCurrentIDPos(pos.CurrentX, pos.CurrentY);
 
             // Til at holde styr på om der skal tegnes en forælder eller et barn (0 = forælder, over 0 = barn)
-            string name = "";
+            string name;
             if (kidNumber == 0) {
                 name = CommandReadQuery($"select FirstName from Members where ID = {ID}");
             }
             else { // kidNumber er over 0, hvilket betyder, at navnet skal fetches ud fra ID'et i kidNumber
                 name = CommandReadQuery($"select FirstName from Members where ID = {kidNumber}");
             }
-
-            //Pen pen = new Pen(Color.Black, 2); ***************************************************************** TJEK SYNOPSE ***********************************************!!!
 
             // Tegner grafik på bitmappet
             using (Graphics graphics = Graphics.FromImage(bmp)) {
@@ -341,44 +350,45 @@ namespace FamilieTraeProgrammeringEksamen {
         void CalculatePointsForLine(string action) {
             if(action == "Partner") {
                 // Rektanglernes højde bliver divideret med 2 for at finde midten af rektanglen
-                paint.CurrentPosY += rectangleHeight / 2;
-                from = new Point(paint.CurrentPosX, paint.CurrentPosY);
+                pos.CurrentY += rectangleHeight / 2;
+                from = new Point(pos.CurrentX, pos.CurrentY);
 
-                // Afstanden imellem de 2 rektangler er 32, 32 trækkes fra CurrentPosX så X positionen kommer over til den anden rektangel
-                paint.CurrentPosX -= 32;
-                to = new Point(paint.CurrentPosX, paint.CurrentPosY);
+                // Afstanden imellem de 2 rektangler er 32, 32 trækkes fra CurrentX så X positionen kommer over til den anden rektangel
+                pos.CurrentX -= 32;
+                to = new Point(pos.CurrentX, pos.CurrentY);
 
                 // Tegner stregen
                 DrawLine();
             }
             else if(action == "KidLineup") {
                 /* Stregen, som går fra midten af "Partner-stregen" og ned derfra */
-
                 // Finder midten mellen linjen, som tilslutter de 2 forældre
-                paint.CurrentPosX += 16;
+                pos.CurrentX += 16;
 
-                from = new Point(paint.CurrentPosX, paint.CurrentPosY);
+                from = new Point(pos.CurrentX, pos.CurrentY);
 
-                paint.CurrentPosY += 40;
-                to = new Point(paint.CurrentPosX, paint.CurrentPosY);
+                /* Fra forældrene og ned til rektanglen er længden 40 på Y-aksen. Dog bliver der plusset 10 ekstra til hvis der er mere end et barn når børnene bliver tegnet, så derfor bliver der ved mere end
+                 * et barn kun plusset 30 til, så generationerne har det samme Y-koordinat. */
+                if (kidsNum == 1) {
+                    pos.CurrentY += 40;
+                }
+                else {
+                    pos.CurrentY += 30;
+                }
+
+                to = new Point(pos.CurrentX, pos.CurrentY);
                 
                 DrawLine();
-                // Da der højest må tegnes 3 generationer (Første forældre, deres børn, deres børnebørn) skal positionen for midten af den første kidLineup linje gemmes, så der kan tegnes 1 
-                // side af børnebørnene ad gangen
-                if(generationsDrawn == 1) {
-                    paint.ArchivedPosX2 = paint.CurrentPosX;
-                    paint.ArchivedPosY2 = paint.CurrentPosY;
-                }
 
                 /* Stregen, som alle børnene hænger på (Kun hvis der er mere end et barn) */
                 kidsBranch = 0;
                 if(kidsNum > 1) {
-                    // Udregner længden af stregen **************************************MANGLER ÆNDRING SOM OGSÅ TAGER I BETRAGTNING OM DE ER GIFT OSV************************************
+                    // Udregner længden af stregen 
                     kidsBranch = kidsNum * 100;
-                    kidsBranch -= amountOfKidsBranches * 100;
+                    kidsBranch -= amountOfKidsBranches * 75;
 
-                    from = new Point(paint.CurrentPosX - kidsBranch, paint.CurrentPosY);
-                    to = new Point(paint.CurrentPosX + kidsBranch, paint.CurrentPosY);
+                    from = new Point(pos.CurrentX - kidsBranch, pos.CurrentY);
+                    to = new Point(pos.CurrentX + kidsBranch, pos.CurrentY);
 
                     DrawLine();
 
