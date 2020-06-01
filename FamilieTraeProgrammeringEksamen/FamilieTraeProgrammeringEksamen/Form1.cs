@@ -9,6 +9,7 @@ namespace FamilieTraeProgrammeringEksamen {
         protected MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
         protected MySqlCommand sqlCmd;
         Person psn = new Person();
+        CreatePeople cp = new CreatePeople();
 
         public Form1() {
             InitializeComponent();
@@ -119,6 +120,8 @@ namespace FamilieTraeProgrammeringEksamen {
             return "";
         }
 
-
+        private void create_family_Click(object sender, EventArgs e) {
+            cp.CreateFamily();
+        }
     }
 }
