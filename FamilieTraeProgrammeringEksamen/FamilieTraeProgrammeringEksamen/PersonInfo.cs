@@ -20,6 +20,7 @@ namespace FamilieTraeProgrammeringEksamen {
         int fatherID, motherID;
         int yearBorn, yearDeath;
         string dateBorn, dateDeath;
+        int isDead; //0 = nej, 1 = ja
 
         #region References
 
@@ -128,9 +129,14 @@ namespace FamilieTraeProgrammeringEksamen {
             set => dateDeath = value;
         }
 
+        public int IsDead {
+            get => isDead;
+            set => isDead = value;
+        }
+
         #endregion
 
-        
+
 
     }
 }

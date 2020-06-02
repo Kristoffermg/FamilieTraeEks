@@ -202,9 +202,14 @@ namespace FamilieTraeProgrammeringEksamen {
             //Skabning af fødselsår
             pi.YearBorn = dadPi.YearBorn + rnd.Next(18, 50);
 
-            //Skabning af dødsår
+            //Skabning af død
             index = rnd.Next(0, 1000);
-            if (pi.Age > 60 && pi.Generation != maxGen - 1 && pi.Generation != maxGen || index >= 999) {
+            if (pi.Generation != maxGen - 1 && pi.Generation != maxGen || index >= 999) {
+                pi.IsDead = 1;
+            }
+
+            //Skabning af dødsår
+            if (pi.IsDead == 1) {
                 pi.YearDeath = pi.YearBorn + pi.Age;
             }
 
@@ -212,8 +217,7 @@ namespace FamilieTraeProgrammeringEksamen {
             pi.DateBorn = DateOf();
 
             //Skabning af dødsdato
-            index = rnd.Next(0, 1000);
-            if (pi.Age > 60 && pi.Generation != maxGen - 1 && pi.Generation != maxGen || index >= 999) {
+            if (pi.IsDead == 1) {
                 pi.DateDeath = DateOf();
             }
 
@@ -336,14 +340,24 @@ namespace FamilieTraeProgrammeringEksamen {
             //Skabning af fødselsår
             pi.YearBorn = partnerPi.YearBorn + index;
 
+            //Skabning af død
+            index = rnd.Next(0, 1000);
+            if (pi.Generation != maxGen - 1 && pi.Generation != maxGen || index >= 999) {
+                pi.IsDead = 1;
+            }
+
             //Skabning af dødsår
-            pi.YearDeath = pi.YearBorn + pi.Age;
+            if (pi.IsDead == 1) {
+                pi.YearDeath = pi.YearBorn + pi.Age;
+            }
 
             //Skabning af fødselsdato
             pi.DateBorn = DateOf();
 
             //Skabning af dødsdato
-            pi.DateDeath = DateOf();
+            if (pi.IsDead == 1) {
+                pi.DateDeath = DateOf();
+            }
 
             //Skabningen af addressen
             pi.Address = partnerPi.Address;
@@ -364,15 +378,9 @@ namespace FamilieTraeProgrammeringEksamen {
         int[] monthLength = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         string DateOf() {
             Random rnd = new Random();
-            int dd, mm;
-            mm = rnd.Next(1, 12);
-            dd = rnd.Next(1, monthLength[mm]);
+            int mm = rnd.Next(1, 12);
+            int dd = rnd.Next(1, monthLength[mm]);
             return dd + "-" + mm;
-        }
-        
-
-        bool FamilyMemberIsMarried() {
-            return true;
         }
     }
 }

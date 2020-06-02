@@ -78,7 +78,7 @@ namespace FamilieTraeProgrammeringEksamen {
             sqlCmd = new MySqlCommand($"insert into Members values ('{pi.Generation}', '{pi.ID}', '{pi.Name}', '{pi.Surname}'," +
                 $"'{pi.Age}','{pi.Gender}', '{pi.Address}', '{pi.City}', '{pi.IsMarried}', '{pi.PartnerID}', '{pi.KidsNum}'," +
                 $"'{pi.Kid1ID}', '{pi.Kid2ID}', '{pi.Kid3ID}', '{pi.Kid4ID}', '{pi.FatherID}', '{pi.MotherID}', '{pi.YearBorn}', "+
-                $"'{pi.YearDeath}', '{pi.DateBorn}', '{pi.DateDeath}')", sqlCon);
+                $"'{pi.YearDeath}', '{pi.DateBorn}', '{pi.DateDeath}', '{pi.IsDead}')", sqlCon);
             sqlCmd.ExecuteNonQuery();
             sqlCon.Close();
         }
