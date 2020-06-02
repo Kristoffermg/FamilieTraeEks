@@ -74,7 +74,7 @@ namespace FamilieTraeProgrammeringEksamen {
             pi.Surname = surnames[index];
 
             //Skabningen af alder
-            index = rnd.Next(40, 100);
+            index = rnd.Next(60, 100);
             pi.Age = index;
 
             //Skabning af fødselsår
@@ -99,7 +99,7 @@ namespace FamilieTraeProgrammeringEksamen {
             pi.City = city[index];
 
             //Skabning af antal af børn
-            index = rnd.Next(1, 5);
+            index = rnd.Next(2, 5);
             pi.KidsNum = index;
 
             //Skabning & tilkobling af partnerPi
@@ -184,7 +184,7 @@ namespace FamilieTraeProgrammeringEksamen {
             //Bedømmelse af personen er gift
             index = rnd.Next(0, 100);
             if(pi.Age > 25) {
-                if(index <= 95) {
+                if(index <= 85) {
                     pi.IsMarried = 1;
                 }
                 else { pi.IsMarried = 0; }
@@ -244,9 +244,9 @@ namespace FamilieTraeProgrammeringEksamen {
             pi.City = city[index];
 
             //Skabning af antal af børn
-            if (gen != maxGen) {
+            if (gen != maxGen && pi.IsMarried == 1) {
                 index = rnd.Next(1, 100);
-                if (index < 90) {
+                if (index < 95) {
                     if (pi.Age >= 35) {
                         index = rnd.Next(1, 4);
                     }
@@ -292,6 +292,9 @@ namespace FamilieTraeProgrammeringEksamen {
             PersonInfo pi = new PersonInfo();
             int index;
             ID++;
+
+            //Sætter status til gift
+            pi.IsMarried = 1;
 
             //Sætter generationen
             pi.Generation = partnerPi.Generation;
