@@ -1,9 +1,13 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FamilieTraeProgrammeringEksamen {
     class Person {
-        protected MySqlConnection sqlCon = new MySqlConnection("Data Source=80.167.72.28,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
+        protected MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
         protected MySqlCommand sqlCmd;
 
         #region Overload Methods - Find Values Of Individuals
@@ -63,27 +67,7 @@ namespace FamilieTraeProgrammeringEksamen {
 
         #endregion
 
-        #region Overload Methods - Create Values Of Individuals
 
-        void CreateColumn() {
-            sqlCon.Open();
-            //Skab et nyt table med columns til værdier der skal samles
-            sqlCmd = new MySqlCommand("create table Members(Generation int, ID int, FirstName varchar(15), LastName varchar(15), " +
-                "Age int, Gender char(1), FatherID int, DateBorn varchar(8), DateDeath varchar(8))", sqlCon);
-        }
-
-        public void AddRow(PersonInfo pi) {
-            //Tilføj en person gennem forskellige informationer
-            sqlCon.Open();
-            sqlCmd = new MySqlCommand($"insert into Members values ('{pi.Generation}', '{pi.ID}', '{pi.Name}', '{pi.Surname}'," +
-                $"'{pi.Age}','{pi.Gender}', '{pi.Address}', '{pi.City}', '{pi.IsMarried}', '{pi.PartnerID}', '{pi.KidsNum}'," +
-                $"'{pi.Kid1ID}', '{pi.Kid2ID}', '{pi.Kid3ID}', '{pi.Kid4ID}', '{pi.FatherID}', '{pi.MotherID}', '{pi.YearBorn}', "+
-                $"'{pi.YearDeath}', '{pi.DateBorn}', '{pi.DateDeath}')", sqlCon);
-            sqlCmd.ExecuteNonQuery();
-            sqlCon.Close();
-        }
-
-        #endregion
 
 
 
