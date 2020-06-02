@@ -27,8 +27,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.IDSpecification = new System.Windows.Forms.NumericUpDown();
-            this.CreateFamily = new System.Windows.Forms.Button();
+            this.DrawFamily = new System.Windows.Forms.Button();
             this.graphicsDisplayBox = new System.Windows.Forms.PictureBox();
+            this.CreateTree = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IDSpecification)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.graphicsDisplayBox)).BeginInit();
@@ -75,22 +76,22 @@
             0,
             0});
             // 
-            // CreateFamily
+            // DrawFamily
             // 
-            this.CreateFamily.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CreateFamily.Font = new System.Drawing.Font("Sitka Text", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CreateFamily.Location = new System.Drawing.Point(235, 49);
-            this.CreateFamily.Name = "CreateFamily";
-            this.CreateFamily.Size = new System.Drawing.Size(75, 29);
-            this.CreateFamily.TabIndex = 3;
-            this.CreateFamily.Text = "Create Family";
-            this.CreateFamily.UseVisualStyleBackColor = true;
-            this.CreateFamily.Click += new System.EventHandler(this.CreateFamily_Click);
+            this.DrawFamily.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DrawFamily.Font = new System.Drawing.Font("Sitka Text", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DrawFamily.Location = new System.Drawing.Point(235, 49);
+            this.DrawFamily.Name = "DrawFamily";
+            this.DrawFamily.Size = new System.Drawing.Size(112, 29);
+            this.DrawFamily.TabIndex = 3;
+            this.DrawFamily.Text = "Draw Family";
+            this.DrawFamily.UseVisualStyleBackColor = true;
+            this.DrawFamily.Click += new System.EventHandler(this.CreateFamily_Click);
             // 
             // graphicsDisplayBox
             // 
             this.graphicsDisplayBox.BackColor = System.Drawing.SystemColors.Control;
-            this.graphicsDisplayBox.Location = new System.Drawing.Point(11, 80);
+            this.graphicsDisplayBox.Location = new System.Drawing.Point(11, 83);
             this.graphicsDisplayBox.Margin = new System.Windows.Forms.Padding(2);
             this.graphicsDisplayBox.Name = "graphicsDisplayBox";
             this.graphicsDisplayBox.Size = new System.Drawing.Size(1066, 222);
@@ -98,13 +99,26 @@
             this.graphicsDisplayBox.TabStop = false;
             this.graphicsDisplayBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
+            // CreateTree
+            // 
+            this.CreateTree.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CreateTree.Font = new System.Drawing.Font("Sitka Text", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CreateTree.Location = new System.Drawing.Point(922, 49);
+            this.CreateTree.Name = "CreateTree";
+            this.CreateTree.Size = new System.Drawing.Size(155, 29);
+            this.CreateTree.TabIndex = 6;
+            this.CreateTree.Text = "Create Family Tree";
+            this.CreateTree.UseVisualStyleBackColor = true;
+            this.CreateTree.Click += new System.EventHandler(this.CreateTree_Click);
+            // 
             // DesignerWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1088, 310);
+            this.Controls.Add(this.CreateTree);
             this.Controls.Add(this.graphicsDisplayBox);
-            this.Controls.Add(this.CreateFamily);
+            this.Controls.Add(this.DrawFamily);
             this.Controls.Add(this.IDSpecification);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.numberRange);
@@ -126,8 +140,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown IDSpecification;
-        private System.Windows.Forms.Button CreateFamily;
+        private System.Windows.Forms.Button DrawFamily;
         private System.Windows.Forms.PictureBox graphicsDisplayBox;
+        private System.Windows.Forms.Button CreateTree;
     }
 }
 

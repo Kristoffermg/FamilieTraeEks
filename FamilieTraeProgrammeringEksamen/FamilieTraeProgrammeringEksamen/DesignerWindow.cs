@@ -70,7 +70,7 @@ namespace FamilieTraeProgrammeringEksamen {
 
         // Variablerne fra databasen, som bruges i udregningerne ift. grafikken
         int ID = 1;
-        int isMarried, partnerID;
+        int partnerID;
         int kidsNum, kid1ID, kid2ID, kid3ID;
         int main1Kid, main2Kid, main3Kid;
         int mainKidsNum;
@@ -205,7 +205,16 @@ namespace FamilieTraeProgrammeringEksamen {
             sqlCon.Close();
         }
 
+        // Indeholder X og Y-værdi for klik 
         public static int Xvalue, Yvalue;
+
+        CreatePeople cPeople = new CreatePeople();
+        private void CreateTree_Click(object sender, EventArgs e) {
+            cPeople.CreateFamily();
+            IDSpecification.Minimum = FindMinimumID();
+            IDSpecification.Maximum = FindMaximumID();
+            numberRange.Text = $"Person ID ({IDSpecification.Minimum}-{IDSpecification.Maximum})";
+        }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e) {
 
@@ -215,9 +224,9 @@ namespace FamilieTraeProgrammeringEksamen {
             Xvalue = Xtree.Find(e.X, Xtree.root);
 
             /* Til hvis konsol slåes til og man vil se værdierne for klikket og hvad der er fundet frem til ud fra klikket
+            Console.WriteLine($"Click position X: {e.X} Y: {e.Y}");
             Console.Write($"Found: X: {Xvalue}, Y: {Yvalue}");
             Console.WriteLine();
-            Console.WriteLine($"Click position X: {e.X} Y: {e.Y}");
             */
 
             // Inden personID bliver defineret, tjekkes der, om der overhovedet er fundet en person der hvor man har klikket vha. Xvalue og Yvalue

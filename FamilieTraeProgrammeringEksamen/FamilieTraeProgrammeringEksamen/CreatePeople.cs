@@ -28,13 +28,16 @@ namespace FamilieTraeProgrammeringEksamen {
         #endregion
 
         Random rnd = new Random();
-        int ID = 1;
+        int ID;
         const int maxGen = 10;
 
         public void CreateFamily() {
             int gen = 0;
+            Person _p = new Person();
+            // Rydder det nuværende familietræ inden det nye bliver genereret
+            _p.RemoveCurrentFamilyTree();
+            ID = 1;
             GenerateFamilyMember(0, gen);
-            
         }
 
         //Køres kun i generation 0
@@ -99,7 +102,7 @@ namespace FamilieTraeProgrammeringEksamen {
             pi.City = city[index];
 
             //Skabning af antal af børn
-            index = rnd.Next(2, 5);
+            index = rnd.Next(2, 4);
             pi.KidsNum = index;
 
             //Skabning & tilkobling af partnerPi

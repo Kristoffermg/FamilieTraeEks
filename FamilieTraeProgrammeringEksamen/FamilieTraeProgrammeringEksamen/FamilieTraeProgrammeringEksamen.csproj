@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreatePeople.cs" />
     <Compile Include="DataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -82,6 +83,8 @@
     <Compile Include="DesignerWindow.Designer.cs">
       <DependentUpon>DesignerWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Person.cs" />
+    <Compile Include="PersonInfo.cs" />
     <Compile Include="PositionValues.cs" />
     <Compile Include="PersonInfoWindow.cs">
       <SubType>Form</SubType>
@@ -95,9 +98,12 @@
     <EmbeddedResource Include="DesignerWindow.resx">
       <DependentUpon>DesignerWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="obj\Debug\FamilieTraeProgrammeringEksamen.DesignerWindow.resources" />
+    <EmbeddedResource Include="obj\Debug\FamilieTraeProgrammeringEksamen.PersonInfoWindow.resources" />
     <EmbeddedResource Include="PersonInfoWindow.resx">
       <DependentUpon>PersonInfoWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="bin\Debug\FamilieTraeProgrammeringEksamen.exe.config" />
     <None Include="DataSet1.xsc">
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </None>
@@ -109,6 +115,12 @@
     <None Include="DataSet1.xss">
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </None>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\FamilieTraeProgrammeringEksamen.csproj.CopyComplete" />
+    <None Include="obj\Debug\FamilieTraeProgrammeringEksamen.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\FamilieTraeProgrammeringEksamen.csproj.GenerateResource.cache" />
+    <None Include="obj\Debug\FamilieTraeProgrammeringEksamen.csprojAssemblyReference.cache" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -123,6 +135,25 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="bin\Debug\BouncyCastle.Crypto.dll" />
+    <Content Include="bin\Debug\FamilieTraeProgrammeringEksamen.exe" />
+    <Content Include="bin\Debug\FamilieTraeProgrammeringEksamen.pdb" />
+    <Content Include="bin\Debug\Google.Protobuf.dll" />
+    <Content Include="bin\Debug\Google.Protobuf.xml" />
+    <Content Include="bin\Debug\MySql.Data.dll" />
+    <Content Include="bin\Debug\MySql.Data.xml" />
+    <Content Include="bin\Debug\Renci.SshNet.dll" />
+    <Content Include="bin\Debug\Renci.SshNet.xml" />
+    <Content Include="bin\Debug\Ubiety.Dns.Core.dll" />
+    <Content Include="obj\Debug\FamilieTraeProgrammeringEksamen.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\FamilieTraeProgrammeringEksamen.exe" />
+    <Content Include="obj\Debug\FamilieTraeProgrammeringEksamen.pdb" />
+    <Content Include="obj\Debug\TempPE\DataSet1.Designer.cs.dll" />
+    <Content Include="obj\Debug\TempPE\Properties.Resources.Designer.cs.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

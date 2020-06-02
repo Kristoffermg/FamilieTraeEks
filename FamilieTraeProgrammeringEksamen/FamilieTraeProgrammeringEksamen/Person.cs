@@ -6,7 +6,7 @@ namespace FamilieTraeProgrammeringEksamen {
         protected MySqlConnection sqlCon = new MySqlConnection("Data Source=80.167.72.28,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
         protected MySqlCommand sqlCmd;
 
-        #region Overload Methods - Find Values Of Individuals
+        #region Overload Methods - Find Values Of Individuals & Remove current family tree
 
         //Bruger indsendte værdier til at finde enkelte værdier
         public void FindIndividual(string name, string surname, int infoWanted) {
@@ -59,6 +59,13 @@ namespace FamilieTraeProgrammeringEksamen {
             }
             sqlCon.Close();
             return "Database is empty";
+        }
+
+        public void RemoveCurrentFamilyTree() {
+            sqlCon.Open();
+            sqlCmd = new MySqlCommand("delete from Members", sqlCon);
+            sqlCmd.ExecuteNonQuery();
+            sqlCon.Close();
         }
 
         #endregion
