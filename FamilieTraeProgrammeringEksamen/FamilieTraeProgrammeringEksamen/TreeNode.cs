@@ -36,14 +36,6 @@ namespace FamilieTraeProgrammeringEksamen {
             return root;
         }
 
-        public void PrintTree(Node root) {
-            if(root != null) {
-                PrintTree(root.left);
-                Console.Write($"{root.data} ");
-                PrintTree(root.right);
-            }
-        }
-
         public bool searchingForX;
 
         public int Find(int value, Node root) {
@@ -99,7 +91,7 @@ namespace FamilieTraeProgrammeringEksamen {
             // Try catch bliver her brugt til at tjekke, om der sker en exception ved defineringen af tryFetchingPersonID. Hvis databasen ikke kan finde noget, returneres intet, hvilket ville skabe
             // en exception. 
             try {
-                int tryFetchingPersonID = Convert.ToInt32(CommandReadQuery($"select ID from CurrentIDPos where PosX = {Xvalue} and PosY = {Form1.Yvalue}"));
+                int tryFetchingPersonID = Convert.ToInt32(CommandReadQuery($"select ID from CurrentIDPos where PosX = {Xvalue} and PosY = {DesignerWindow.Yvalue}"));
                 return true;
             }
             catch {
@@ -107,7 +99,7 @@ namespace FamilieTraeProgrammeringEksamen {
             } 
         }
 
-        MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Kristoffer;password=12345678;");
+        MySqlConnection sqlCon = new MySqlConnection("Data Source=80.167.72.28,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Kristoffer;password=12345678;");
         MySqlCommand sqlCmd;
         public string CommandReadQuery(string query) {
             sqlCon.Open();

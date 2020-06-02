@@ -8,16 +8,20 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 
 namespace FamilieTraeProgrammeringEksamen {
-    public partial class Form1 : Form {
-        MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Kristoffer;password=12345678;");
+    public partial class DesignerWindow : Form {
+        MySqlConnection sqlCon = new MySqlConnection("Data Source=80.167.72.28,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Kristoffer;password=12345678;");
         MySqlCommand sqlCmd;
 
-        public Form1() {
+        public DesignerWindow() {
             InitializeComponent();
             this.Text = "Familiy Tree generator";
-            IDSpecification.Minimum = 1;
+            IDSpecification.Minimum = FindMinimumID();
             IDSpecification.Maximum = FindMaximumID();
-            numberRange.Text = $"Person ID (1-{IDSpecification.Maximum})";
+            numberRange.Text = $"Person ID ({IDSpecification.Minimum}-{IDSpecification.Maximum})";
+        }
+
+        int FindMinimumID() {
+            return Convert.ToInt32(CommandReadQuery("select min(ID) from Members"));
         }
 
         int FindMaximumID() {
@@ -45,7 +49,7 @@ namespace FamilieTraeProgrammeringEksamen {
         PositionValues pos = new PositionValues();
 
         // Definerer bitmappet, hvori grafikken indsættes
-        Bitmap bmp = new Bitmap(914, 429); // 914 = 
+        Bitmap bmp = new Bitmap(1066, 222);  
 
         // Definerer størrelsen på rektanglerne, som indeholder navnene på de specifikke personer
         int rectangleWidth = 50;
@@ -152,15 +156,11 @@ namespace FamilieTraeProgrammeringEksamen {
             if(XorY == 'X') {
                 Xtree.searchingForX = true;
                 Xtree.root = Xtree.ArrToBST(arr, 0, arr.Length - 1);
-                Xtree.PrintTree(Xtree.root);
-                Console.WriteLine();
                 PersonBoxPosToBinaryTree('Y');
             }
             else if(XorY == 'Y') {
                 Ytree.searchingForX = false;
                 Ytree.root = Ytree.ArrToBST(arr, 0, arr.Length - 1);
-                Ytree.PrintTree(Ytree.root);
-                Console.WriteLine();
             }
         }
 
@@ -208,17 +208,20 @@ namespace FamilieTraeProgrammeringEksamen {
         public static int Xvalue, Yvalue;
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e) {
-            Console.WriteLine();
-            Console.WriteLine($"Click position X: {e.X} Y: {e.Y}");
 
             /* Først bliver Y-værdien fundet, da de forskellige generationer har samme Y-værdi og X-værdien altid kan variere
              * Hvis man f.eks. trykker på en persons rektangel i bunden af træet mens der er en anden persons rektangel længere oppe med næsten samme X-værdi, vil BST'et returnere toppens rektangels X-værdi */
             Yvalue = Ytree.Find(e.Y, Ytree.root);
             Xvalue = Xtree.Find(e.X, Xtree.root);
+
+            /* Til hvis konsol slåes til og man vil se værdierne for klikket og hvad der er fundet frem til ud fra klikket
             Console.Write($"Found: X: {Xvalue}, Y: {Yvalue}");
+            Console.WriteLine();
+            Console.WriteLine($"Click position X: {e.X} Y: {e.Y}");
+            */
 
             // Inden personID bliver defineret, tjekkes der, om der overhovedet er fundet en person der hvor man har klikket vha. Xvalue og Yvalue
-            if(Xvalue > 0 && Yvalue > 0) {
+            if (Xvalue > 0 && Yvalue > 0) {
                 PersonInfoWindow InfoWindow = new PersonInfoWindow();
                 // Personen, som vha. Binary search tree er blevet fundet, sendes videre til ShowPersonInfo() i PersonInfoWindow.cs, så personens informationer bliver vist
                 int personID = Convert.ToInt32(CommandReadQuery($"select ID from CurrentIDPos where PosX = {Xvalue} and PosY = {Yvalue}"));
@@ -384,8 +387,9 @@ namespace FamilieTraeProgrammeringEksamen {
                 kidsBranch = 0;
                 if(kidsNum > 1) {
                     // Udregner længden af stregen 
-                    kidsBranch = kidsNum * 100;
-                    kidsBranch -= amountOfKidsBranches * 75;
+                    if (currentlyDrawingGeneration == 1) kidsBranch = kidsNum * 120;
+                    else kidsBranch = kidsNum * 95;
+                    kidsBranch -= amountOfKidsBranches * 70 + kidsNum * 20;
 
                     from = new Point(pos.CurrentX - kidsBranch, pos.CurrentY);
                     to = new Point(pos.CurrentX + kidsBranch, pos.CurrentY);

@@ -32,8 +32,12 @@
             this.AgeL = new System.Windows.Forms.Label();
             this.AddressL = new System.Windows.Forms.Label();
             this.PartnerL = new System.Windows.Forms.Label();
-            this.PhoneL = new System.Windows.Forms.Label();
             this.NameL = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.CityL = new System.Windows.Forms.Label();
+            this.BirthL = new System.Windows.Forms.Label();
+            this.DeathDateL = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -60,7 +64,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(13, 81);
+            this.label3.Location = new System.Drawing.Point(13, 149);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(86, 24);
             this.label3.TabIndex = 2;
@@ -70,7 +74,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(12, 116);
+            this.label4.Location = new System.Drawing.Point(12, 81);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(81, 24);
             this.label4.TabIndex = 3;
@@ -80,11 +84,11 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(13, 152);
+            this.label5.Location = new System.Drawing.Point(13, 116);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 24);
+            this.label5.Size = new System.Drawing.Size(101, 24);
             this.label5.TabIndex = 4;
-            this.label5.Text = "Phone:";
+            this.label5.Text = "From City:";
             // 
             // Name
             // 
@@ -94,7 +98,7 @@
             this.Name.Name = "Name";
             this.Name.Size = new System.Drawing.Size(92, 24);
             this.Name.TabIndex = 5;
-            this.Name.Text = "NameText";
+            this.Name.Text = "PersonInfoWindow";
             // 
             // AgeL
             // 
@@ -110,7 +114,7 @@
             // 
             this.AddressL.AutoSize = true;
             this.AddressL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AddressL.Location = new System.Drawing.Point(93, 81);
+            this.AddressL.Location = new System.Drawing.Point(96, 149);
             this.AddressL.Name = "AddressL";
             this.AddressL.Size = new System.Drawing.Size(110, 24);
             this.AddressL.TabIndex = 7;
@@ -120,40 +124,84 @@
             // 
             this.PartnerL.AutoSize = true;
             this.PartnerL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PartnerL.Location = new System.Drawing.Point(93, 116);
+            this.PartnerL.Location = new System.Drawing.Point(86, 81);
             this.PartnerL.Name = "PartnerL";
             this.PartnerL.Size = new System.Drawing.Size(107, 24);
             this.PartnerL.TabIndex = 8;
             this.PartnerL.Text = "PartnerText";
             // 
-            // PhoneL
-            // 
-            this.PhoneL.AutoSize = true;
-            this.PhoneL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PhoneL.Location = new System.Drawing.Point(78, 152);
-            this.PhoneL.Name = "PhoneL";
-            this.PhoneL.Size = new System.Drawing.Size(97, 24);
-            this.PhoneL.TabIndex = 9;
-            this.PhoneL.Text = "PhoneNum";
-            // 
             // NameL
             // 
             this.NameL.AutoSize = true;
             this.NameL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NameL.Location = new System.Drawing.Point(78, 13);
+            this.NameL.Location = new System.Drawing.Point(67, 13);
             this.NameL.Name = "NameL";
             this.NameL.Size = new System.Drawing.Size(77, 24);
             this.NameL.TabIndex = 10;
             this.NameL.Text = "AgeNum";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(13, 182);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(92, 24);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Birthday:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(12, 216);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(111, 24);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "Death Date:";
+            // 
+            // CityL
+            // 
+            this.CityL.AutoSize = true;
+            this.CityL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CityL.Location = new System.Drawing.Point(114, 116);
+            this.CityL.Name = "CityL";
+            this.CityL.Size = new System.Drawing.Size(79, 24);
+            this.CityL.TabIndex = 13;
+            this.CityL.Text = "CityText";
+            // 
+            // BirthL
+            // 
+            this.BirthL.AutoSize = true;
+            this.BirthL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BirthL.Location = new System.Drawing.Point(99, 182);
+            this.BirthL.Name = "BirthL";
+            this.BirthL.Size = new System.Drawing.Size(116, 24);
+            this.BirthL.TabIndex = 14;
+            this.BirthL.Text = "BirthdayText";
+            // 
+            // DeathDateL
+            // 
+            this.DeathDateL.AutoSize = true;
+            this.DeathDateL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DeathDateL.Location = new System.Drawing.Point(118, 216);
+            this.DeathDateL.Name = "DeathDateL";
+            this.DeathDateL.Size = new System.Drawing.Size(130, 24);
+            this.DeathDateL.TabIndex = 15;
+            this.DeathDateL.Text = "DeathDateText";
             // 
             // PersonInfoWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gray;
-            this.ClientSize = new System.Drawing.Size(330, 189);
+            this.ClientSize = new System.Drawing.Size(358, 252);
+            this.Controls.Add(this.DeathDateL);
+            this.Controls.Add(this.BirthL);
+            this.Controls.Add(this.CityL);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.NameL);
-            this.Controls.Add(this.PhoneL);
             this.Controls.Add(this.PartnerL);
             this.Controls.Add(this.AddressL);
             this.Controls.Add(this.AgeL);
@@ -180,7 +228,11 @@
         private System.Windows.Forms.Label AgeL;
         private System.Windows.Forms.Label AddressL;
         private System.Windows.Forms.Label PartnerL;
-        private System.Windows.Forms.Label PhoneL;
         private System.Windows.Forms.Label NameL;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label CityL;
+        private System.Windows.Forms.Label BirthL;
+        private System.Windows.Forms.Label DeathDateL;
     }
 }
