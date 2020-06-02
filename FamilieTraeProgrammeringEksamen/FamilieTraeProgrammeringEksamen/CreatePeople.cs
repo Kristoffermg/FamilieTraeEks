@@ -29,9 +29,9 @@ namespace FamilieTraeProgrammeringEksamen {
 
         Random rnd = new Random();
         int ID = 1;
-        int maxGen = 8;
+        const int maxGen = 10;
 
-        public void CreateFamily() { //TODO: rette
+        public void CreateFamily() {
             int gen = 0;
             GenerateFamilyMember(0, gen);
             
@@ -66,16 +66,19 @@ namespace FamilieTraeProgrammeringEksamen {
                 pi.Name = fNames[index];
             }
 
+            //Skabning af gift status
+            pi.IsMarried = 1;
+
             //Skabningen af efternavn
             index = rnd.Next(surnames.Count);
             pi.Surname = surnames[index];
 
             //Skabningen af alder
-            index = rnd.Next(40, 80);
+            index = rnd.Next(40, 100);
             pi.Age = index;
 
             //Skabning af fødselsår
-            index = rnd.Next(0, 1900);
+            index = rnd.Next(1900, 2000);
             pi.YearBorn = index;
 
             //Skabning af dødsår
@@ -91,8 +94,12 @@ namespace FamilieTraeProgrammeringEksamen {
             index = rnd.Next(address.Count);
             pi.Address = address[index] + " " + rnd.Next(1,300);
 
+            //Skabningen af byen
+            index = rnd.Next(city.Count);
+            pi.City = city[index];
+
             //Skabning af antal af børn
-            index = rnd.Next(1, 4);
+            index = rnd.Next(1, 5);
             pi.KidsNum = index;
 
             //Skabning & tilkobling af partnerPi
@@ -142,6 +149,47 @@ namespace FamilieTraeProgrammeringEksamen {
                 pi.Name = fNames[index];
             }
 
+            //Skabningen af alder
+            switch (gen) {
+                default:
+                    index = rnd.Next(60, 100);
+                    pi.Age = index;
+                    break;
+
+                case maxGen - 1:
+                    index = rnd.Next(35, 60);
+                    pi.Age = index;
+                    break;
+
+                case maxGen:
+                    if (dadPi.Age < 35 && momPi.Age < 35) {
+                        index = rnd.Next(0, 15);
+                    }
+                    else if (dadPi.Age < 40) {
+                        index = rnd.Next(0, 20);
+                    }
+                    else if (dadPi.Age < 45) {
+                        index = rnd.Next(5, 25);
+                    }
+                    else if (dadPi.Age < 50) {
+                        index = rnd.Next(10, 30);
+                    }
+                    else if (dadPi.Age < 55) {
+                        index = rnd.Next(15, 35);
+                    }
+                    pi.Age = index;
+                    break;
+            }
+
+            //Bedømmelse af personen er gift
+            index = rnd.Next(0, 100);
+            if(pi.Age > 25) {
+                if(index <= 95) {
+                    pi.IsMarried = 1;
+                }
+                else { pi.IsMarried = 0; }
+            }
+
             //Skabningen af efternavn
             if (pi.IsMarried == 1) {
                 index = rnd.Next(surnames.Count);
@@ -151,17 +199,11 @@ namespace FamilieTraeProgrammeringEksamen {
                 pi.Surname = dadPi.Surname;
             }
 
-            //Skabningen af alder
-            //TODO: indsæt kriterier ift. om de er døde, i live, gammel, ung eller barn
-            index = rnd.Next(40, 100);
-            pi.Age = index;
-
             //Skabning af fødselsår
-            pi.YearBorn = dadPi.YearBorn + rnd.Next(18, 39);
+            pi.YearBorn = dadPi.YearBorn + rnd.Next(18, 50);
 
             //Skabning af dødsår
             pi.YearDeath = pi.YearBorn + pi.Age;
-
 
             //Skabning af fødselsdato
             pi.DateBorn = DateOf();
@@ -197,32 +239,51 @@ namespace FamilieTraeProgrammeringEksamen {
             index = rnd.Next(address.Count);
             pi.Address = address[index] + " " + rnd.Next(1, 300);
 
+            //Skabningen af byen
+            index = rnd.Next(city.Count);
+            pi.City = city[index];
+
             //Skabning af antal af børn
-            index = rnd.Next(1, 100);
-            if (index < 90) {
-                index = rnd.Next(1, 4);
-                pi.KidsNum = index;
+            if (gen != maxGen) {
+                index = rnd.Next(1, 100);
+                if (index < 90) {
+                    if (pi.Age >= 35) {
+                        index = rnd.Next(1, 4);
+                    }
+                    else if (pi.Age >= 40) {
+                        index = rnd.Next(1, 5);
+                    }
+                    pi.KidsNum = index;
+                }
+                else {
+                    pi.KidsNum = 0;
+                }
             }
-            else {
-                pi.KidsNum = 0;
-            }
+            else { pi.KidsNum = 0; }
 
-            //Skabning & tilkobling af partnerPi
-            partnerPi = GenerateFamilyMember(pi);
-            pi.PartnerID = partnerPi.ID;
+            //Følgene gøres kun hvis personen er gift
+            if (pi.IsMarried == 1) {
+                //Skabning & tilkobling af partnerPi
+                partnerPi = GenerateFamilyMember(pi);
+                pi.PartnerID = partnerPi.ID;
 
-            //Skaber barn med forældres informationer
-            gen++;
-            if (gen <= maxGen) {
-                for (kid = 1; kid <= pi.KidsNum; kid++) {
-                    GenerateFamilyMember(pi, partnerPi, gen, kid);
+
+                //Skaber barn med forældres informationer
+                gen++;
+                if (gen <= maxGen) {
+                    for (kid = 1; kid <= pi.KidsNum; kid++) {
+                        GenerateFamilyMember(pi, partnerPi, gen, kid);
+                    }
                 }
             }
 
             //Indskriv informationer til database
             Person p = new Person();
             p.AddRow(pi);
-            p.AddRow(partnerPi);
+            if (pi.IsMarried == 1) {
+                p.AddRow(partnerPi);
+            }
+            
 
         }
 
@@ -260,7 +321,7 @@ namespace FamilieTraeProgrammeringEksamen {
             pi.Surname = partnerPi.Surname;
 
             //Skabningen af alder
-            index = rnd.Next(-6, 6);
+            index = rnd.Next(-3, 5);
             pi.Age = partnerPi.Age + index;
 
             //Skabning af fødselsår
@@ -277,6 +338,9 @@ namespace FamilieTraeProgrammeringEksamen {
 
             //Skabningen af addressen
             pi.Address = partnerPi.Address;
+
+            //Skabning af byen
+            pi.City = partnerPi.City;
 
             //Skabning af antal af børn
             pi.KidsNum = partnerPi.KidsNum;

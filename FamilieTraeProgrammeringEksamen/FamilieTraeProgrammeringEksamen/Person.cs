@@ -3,7 +3,7 @@ using System;
 
 namespace FamilieTraeProgrammeringEksamen {
     class Person {
-        protected MySqlConnection sqlCon = new MySqlConnection("Data Source=195.249.237.86,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
+        protected MySqlConnection sqlCon = new MySqlConnection("Data Source=80.167.72.28,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
         protected MySqlCommand sqlCmd;
 
         #region Overload Methods - Find Values Of Individuals
