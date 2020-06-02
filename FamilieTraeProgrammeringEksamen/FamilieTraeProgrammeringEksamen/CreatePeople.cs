@@ -203,13 +203,19 @@ namespace FamilieTraeProgrammeringEksamen {
             pi.YearBorn = dadPi.YearBorn + rnd.Next(18, 50);
 
             //Skabning af dødsår
-            pi.YearDeath = pi.YearBorn + pi.Age;
+            index = rnd.Next(0, 1000);
+            if (pi.Age > 60 && pi.Generation != maxGen - 1 && pi.Generation != maxGen || index >= 999) {
+                pi.YearDeath = pi.YearBorn + pi.Age;
+            }
 
             //Skabning af fødselsdato
             pi.DateBorn = DateOf();
 
             //Skabning af dødsdato
-            pi.DateDeath = DateOf();
+            index = rnd.Next(0, 1000);
+            if (pi.Age > 60 && pi.Generation != maxGen - 1 && pi.Generation != maxGen || index >= 999) {
+                pi.DateDeath = DateOf();
+            }
 
             //Indsæt ID til forældres PersonInfo
             switch (kid) {
