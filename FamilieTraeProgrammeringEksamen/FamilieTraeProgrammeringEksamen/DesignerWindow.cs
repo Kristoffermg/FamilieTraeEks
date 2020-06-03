@@ -210,7 +210,7 @@ namespace FamilieTraeProgrammeringEksamen {
 
         CreatePeople cPeople = new CreatePeople();
         private void CreateTree_Click(object sender, EventArgs e) {
-            cPeople.CreateFamily();
+            cPeople.CreateFamily(FindMaximumID());
             IDSpecification.Minimum = FindMinimumID();
             IDSpecification.Maximum = FindMaximumID();
             numberRange.Text = $"Person ID ({IDSpecification.Minimum}-{IDSpecification.Maximum})";
@@ -237,6 +237,10 @@ namespace FamilieTraeProgrammeringEksamen {
                 InfoWindow.ShowPersonInfo(personID);
                 InfoWindow.Show();
             }
+        }
+
+        private void DesignerWindow_Load(object sender, EventArgs e) {
+
         }
 
         #region Contains methods that draws the amount of kids that needs to be drawn (Maximum amount = 3)

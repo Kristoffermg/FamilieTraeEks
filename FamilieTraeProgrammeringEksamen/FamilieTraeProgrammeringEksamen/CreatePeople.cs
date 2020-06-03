@@ -29,14 +29,14 @@ namespace FamilieTraeProgrammeringEksamen {
 
         Random rnd = new Random();
         int ID;
-        const int maxGen = 10;
+        const int maxGen = 6;
 
-        public void CreateFamily() {
+        public void CreateFamily(int lastID) {
             int gen = 0;
-            Person _p = new Person();
+            /*Person _p = new Person();
             // Rydder det nuværende familietræ inden det nye bliver genereret
-            _p.RemoveCurrentFamilyTree();
-            ID = 1;
+            _p.RemoveCurrentFamilyTree();*/
+            ID = lastID + 1; //Sætter ID til 1 højere end højest kendte ID i databasen
             GenerateFamilyMember(0, gen);
         }
 
