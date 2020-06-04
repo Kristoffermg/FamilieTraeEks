@@ -90,6 +90,9 @@ namespace FamilieTraeProgrammeringEksamen {
             //Skabning af fødselsdato
             pi.DateBorn = DateOf();
 
+            //Skabning af dødsstatus
+            pi.IsDead = 1;
+
             //Skabning af dødsdato
             pi.DateDeath = DateOf();
 
