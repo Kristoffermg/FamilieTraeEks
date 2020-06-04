@@ -20,25 +20,27 @@ namespace FamilieTraeProgrammeringEksamen {
         static DesignerWindow MainForm = new DesignerWindow();
 
         public void ShowPersonInfo(int personID) {
-            string FirstName = "", LastName = "", Age = "", City = "", Address = "", Partner = "", YearBorn = "", DateBorn = "", YearDeath = "", DateDeath = "";
+            string FirstName = "", LastName = "", Age = "", City = "", Address = "", Partner = "", YearBorn = "", DateBorn = "", YearDeath = "", DateDeath = "", Generation = "";
             int HasPartner = 0, PartnerID = 0, IsDead = 0;
             sqlCon.Open();
-            sqlCmd = new MySqlCommand($"select FirstName, LastName, Age, City, Address, IsMarried, YearBorn, DateBorn, IsDead from Members where ID = {personID}", sqlCon);
+            sqlCmd = new MySqlCommand($"select FirstName, LastName, Age, City, Address, IsMarried, YearBorn, DateBorn, IsDead, Generation from Members where ID = {personID}", sqlCon);
             MySqlDataReader da = sqlCmd.ExecuteReader();
             while (da.Read()) {
-                FirstName = da.GetValue(0).ToString();
-                LastName = da.GetValue(1).ToString();
+                FirstName = (string)da.GetValue(0);
+                LastName = (string)da.GetValue(1);
                 Age = da.GetValue(2).ToString();
-                City = da.GetValue(3).ToString();
-                Address = da.GetValue(4).ToString();
+                City = (string)da.GetValue(3);
+                Address = (string)da.GetValue(4);
                 HasPartner = (int)da.GetValue(5);
                 YearBorn = da.GetValue(6).ToString();
-                DateBorn = da.GetValue(7).ToString();
+                DateBorn = (string)da.GetValue(7);
                 IsDead = (int)da.GetValue(8);
+                Generation = da.GetValue(9).ToString();
             }
             sqlCon.Close();
 
             NameL.Text = $"{FirstName} {LastName}";
+            GenerationL.Text = Generation;
             AgeL.Text = Age;
             AddressL.Text = Address;
             CityL.Text = City;
