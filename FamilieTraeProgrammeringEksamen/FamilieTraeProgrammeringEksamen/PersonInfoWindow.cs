@@ -18,6 +18,7 @@ namespace FamilieTraeProgrammeringEksamen {
         MySqlCommand sqlCmd;
 
         static DesignerWindow MainForm = new DesignerWindow();
+        DatabaseQuerys dbQ = new DatabaseQuerys();
 
         public void ShowPersonInfo(int personID) {
             string FirstName = "", LastName = "", Age = "", City = "", Address = "", Partner = "", YearBorn = "", DateBorn = "", YearDeath = "", DateDeath = "", Generation = "";

@@ -1,12 +1,13 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 
 namespace FamilieTraeProgrammeringEksamen {
-    class Person {
+    class DatabaseQuerys {
         protected MySqlConnection sqlCon = new MySqlConnection("Data Source=80.167.72.28,3306;Initial Catalog=FamilieTræ;Persist Security Info=true;User ID=Admin;password=12345678;");
         protected MySqlCommand sqlCmd;
 
-        #region Overload Methods - Find Values Of Individuals & Remove current family tree
+        #region Overload Methods - Find Values Of Individuals
 
         //Bruger indsendte værdier til at finde enkelte værdier
         public void FindIndividual(string name, string surname, int infoWanted) {
@@ -29,7 +30,7 @@ namespace FamilieTraeProgrammeringEksamen {
         }
 
         //Søger gennem databasen efter værdier
-        string CommandQuery(string command, int ID, int infoWanted) {
+        internal string CommandQuery(string command, int ID, int infoWanted) {
             sqlCon.Open();
             sqlCmd = new MySqlCommand(command, sqlCon);
             ///I sqlCmd erstattes @0 med ID for at hjælpe mod sql injections
@@ -60,14 +61,6 @@ namespace FamilieTraeProgrammeringEksamen {
             sqlCon.Close();
             return "Database is empty";
         }
-
-        public void RemoveCurrentFamilyTree() {
-            sqlCon.Open();
-            sqlCmd = new MySqlCommand("delete from Members", sqlCon);
-            sqlCmd.ExecuteNonQuery();
-            sqlCon.Close();
-        }
-
         #endregion
 
         #region Overload Methods - Create Values Of Individuals
@@ -92,7 +85,8 @@ namespace FamilieTraeProgrammeringEksamen {
 
         #endregion
 
-
+        #region 
+        #endregion
 
     }
 }

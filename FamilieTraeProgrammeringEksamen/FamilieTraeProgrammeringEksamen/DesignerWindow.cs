@@ -47,6 +47,7 @@ namespace FamilieTraeProgrammeringEksamen {
         }
 
         PositionValues pos = new PositionValues();
+        DatabaseQuerys dbQ = new DatabaseQuerys();
 
         // Definerer bitmappet, hvori grafikken indsættes
         Bitmap bmp = new Bitmap(1066, 222);  
@@ -194,7 +195,6 @@ namespace FamilieTraeProgrammeringEksamen {
             /* Før var CurrentX i øverste venstre hjørne på rektanglen. 
              * Herunder gåes der først over på den anden side af rektanglen ved at plusse dens X værdi størrelse til og derefter 32 pixels ud */
             pos.CurrentX += rectangleWidth + 32;
-            DrawRectangleWithName(0);
         }
 
         // Sletter alle værdierne i CurrentIDPos når formen bliver lukket, så man ikke kan starte applikationen efter og stadig få informationsvinduet til at poppe op
@@ -343,9 +343,6 @@ namespace FamilieTraeProgrammeringEksamen {
             // Definerer positionen og størrelsen af rektanglen
             var rectangle = new Rectangle(pos.CurrentX, pos.CurrentY, rectangleWidth, rectangleHeight);
 
-            // Gemmer personen og dens position i CurrentIDPos tablet
-            InsertPersonIntoCurrentIDPos(pos.CurrentX, pos.CurrentY);
-
             // Til at holde styr på om der skal tegnes en forælder eller et barn (0 = forælder, over 0 = barn)
             string name;
             if (kidNumber == 0) {
@@ -361,6 +358,10 @@ namespace FamilieTraeProgrammeringEksamen {
                 // Tegner navnet på personen i midten af rektanglen
                 TextRenderer.DrawText(graphics, name, font, rectangle, Color.Black, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
             }
+
+            // Gemmer personen og dens position i CurrentIDPos tablet
+            InsertPersonIntoCurrentIDPos(pos.CurrentX, pos.CurrentY);
+
         }
 
         void CalculatePointsForLine(string action) {

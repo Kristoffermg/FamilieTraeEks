@@ -83,7 +83,7 @@
     <Compile Include="DesignerWindow.Designer.cs">
       <DependentUpon>DesignerWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Person.cs" />
+    <Compile Include="DatabaseQuerys.cs" />
     <Compile Include="PersonInfo.cs" />
     <Compile Include="PositionValues.cs" />
     <Compile Include="PersonInfoWindow.cs">

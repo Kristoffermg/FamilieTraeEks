@@ -118,7 +118,7 @@ namespace FamilieTraeProgrammeringEksamen {
                 GenerateFamilyMember(pi, partnerPi, gen, kid);
             }
 
-            Person p = new Person();
+            DatabaseQuerys p = new DatabaseQuerys();
             p.AddRow(pi);
             p.AddRow(partnerPi);
         }
@@ -294,7 +294,7 @@ namespace FamilieTraeProgrammeringEksamen {
             }
 
             //Indskriv informationer til database
-            Person p = new Person();
+            DatabaseQuerys p = new DatabaseQuerys();
             p.AddRow(pi);
             if (pi.IsMarried == 1) {
                 p.AddRow(partnerPi);
