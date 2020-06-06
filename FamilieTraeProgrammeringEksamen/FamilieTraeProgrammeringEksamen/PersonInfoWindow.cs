@@ -42,6 +42,7 @@ namespace FamilieTraeProgrammeringEksamen {
 
             NameL.Text = $"{FirstName} {LastName}";
             GenerationL.Text = Generation;
+            IDL.Text = personID.ToString();
             AgeL.Text = Age;
             AddressL.Text = Address;
             CityL.Text = City;
