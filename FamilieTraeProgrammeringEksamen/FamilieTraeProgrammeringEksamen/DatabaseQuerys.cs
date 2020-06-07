@@ -85,8 +85,5 @@ namespace FamilieTraeProgrammeringEksamen {
 
         #endregion
 
-        #region 
-        #endregion
-
     }
 }

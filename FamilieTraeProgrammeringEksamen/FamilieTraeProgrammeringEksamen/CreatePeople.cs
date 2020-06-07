@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FamilieTraeProgrammeringEksamen {
     class CreatePeople {
@@ -77,7 +74,7 @@ namespace FamilieTraeProgrammeringEksamen {
             pi.Surname = surnames[index];
 
             //Skabningen af alder
-            index = rnd.Next(60, 100);
+            index = rnd.Next(60, 101);
             pi.Age = index;
 
             //Skabning af fødselsår
@@ -136,7 +133,7 @@ namespace FamilieTraeProgrammeringEksamen {
             //Sætter ID
             pi.ID = ID;
 
-            index = rnd.Next(0, 1);
+            index = rnd.Next(0, 2);
             //Skabningen af køn
             if (index == 0) {
                 pi.Gender = "m";
@@ -158,7 +155,7 @@ namespace FamilieTraeProgrammeringEksamen {
             //Skabningen af alder
             switch (gen) {
                 default:
-                    index = rnd.Next(60, 100);
+                    index = rnd.Next(60, 101);
                     pi.Age = index;
                     break;
 
@@ -384,8 +381,8 @@ namespace FamilieTraeProgrammeringEksamen {
         int[] monthLength = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         string DateOf() {
             Random rnd = new Random();
-            int mm = rnd.Next(1, 12);
-            int dd = rnd.Next(1, monthLength[mm]);
+            int mm = rnd.Next(1, 13);
+            int dd = rnd.Next(1, monthLength[mm - 1]);
             return dd + "-" + mm;
         }
     }

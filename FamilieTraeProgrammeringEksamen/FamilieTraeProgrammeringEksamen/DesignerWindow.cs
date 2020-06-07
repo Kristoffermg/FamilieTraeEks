@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
+
 
 namespace FamilieTraeProgrammeringEksamen {
     public partial class DesignerWindow : Form {
@@ -47,7 +45,6 @@ namespace FamilieTraeProgrammeringEksamen {
         }
 
         PositionValues pos = new PositionValues();
-        DatabaseQuerys dbQ = new DatabaseQuerys();
 
         // Definerer bitmappet, hvori grafikken indsættes
         Bitmap bmp = new Bitmap(1066, 222);  
@@ -237,10 +234,6 @@ namespace FamilieTraeProgrammeringEksamen {
                 InfoWindow.ShowPersonInfo(personID);
                 InfoWindow.Show();
             }
-        }
-
-        private void DesignerWindow_Load(object sender, EventArgs e) {
-
         }
 
         #region Contains methods that draws the amount of kids that needs to be drawn (Maximum amount = 3)

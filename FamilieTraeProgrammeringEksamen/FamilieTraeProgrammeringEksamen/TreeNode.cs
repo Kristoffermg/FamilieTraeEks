@@ -91,7 +91,8 @@ namespace FamilieTraeProgrammeringEksamen {
             // Try catch bliver her brugt til at tjekke, om der sker en exception ved defineringen af tryFetchingPersonID. Hvis databasen ikke kan finde noget, returneres intet, hvilket ville skabe
             // en exception. 
             try {
-                int tryFetchingPersonID = Convert.ToInt32(CommandReadQuery($"select ID from CurrentIDPos where PosX = {Xvalue} and PosY = {DesignerWindow.Yvalue}"));
+                int tryFetchingPersonID = Convert.ToInt32(CommandReadQuery(
+                    $"select ID from CurrentIDPos where PosX = {Xvalue} and PosY = {DesignerWindow.Yvalue}"));
                 return true;
             }
             catch {

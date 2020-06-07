@@ -38,10 +38,10 @@
             this.BirthL = new System.Windows.Forms.Label();
             this.DeathDateL = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.GenerationL = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.IDL = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.GenerationL = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -198,25 +198,15 @@
             this.panel1.Size = new System.Drawing.Size(360, 45);
             this.panel1.TabIndex = 16;
             // 
-            // GenerationL
+            // IDL
             // 
-            this.GenerationL.AutoSize = true;
-            this.GenerationL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GenerationL.Location = new System.Drawing.Point(325, 16);
-            this.GenerationL.Name = "GenerationL";
-            this.GenerationL.Size = new System.Drawing.Size(21, 24);
-            this.GenerationL.TabIndex = 17;
-            this.GenerationL.Text = "0";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(282, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 24);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Gen:";
+            this.IDL.AutoSize = true;
+            this.IDL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IDL.Location = new System.Drawing.Point(244, 17);
+            this.IDL.Name = "IDL";
+            this.IDL.Size = new System.Drawing.Size(21, 24);
+            this.IDL.TabIndex = 20;
+            this.IDL.Text = "0";
             // 
             // label8
             // 
@@ -228,15 +218,25 @@
             this.label8.TabIndex = 19;
             this.label8.Text = "ID:";
             // 
-            // IDL
+            // label1
             // 
-            this.IDL.AutoSize = true;
-            this.IDL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.IDL.Location = new System.Drawing.Point(244, 17);
-            this.IDL.Name = "IDL";
-            this.IDL.Size = new System.Drawing.Size(21, 24);
-            this.IDL.TabIndex = 20;
-            this.IDL.Text = "0";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(282, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(49, 24);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Gen:";
+            // 
+            // GenerationL
+            // 
+            this.GenerationL.AutoSize = true;
+            this.GenerationL.Font = new System.Drawing.Font("Sitka Small", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GenerationL.Location = new System.Drawing.Point(325, 16);
+            this.GenerationL.Name = "GenerationL";
+            this.GenerationL.Size = new System.Drawing.Size(21, 24);
+            this.GenerationL.TabIndex = 17;
+            this.GenerationL.Text = "0";
             // 
             // PersonInfoWindow
             // 
@@ -257,7 +257,6 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Name.Text = "PersonInfoWindow";
             this.Text = "PersonInfoWindow";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
